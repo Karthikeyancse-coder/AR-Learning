@@ -41,9 +41,9 @@ const LoginPage = () => {
   const line2 = parts.length > 1 ? parts[1] : "";
 
   return (
-    <div className={`flex flex-col min-h-screen font-display overflow-hidden ${isDarkMode ? "dark" : ""}`}>
-      <div className="bg-[#f8fafc] dark:bg-[#131022] text-slate-900 dark:text-white min-h-screen overflow-x-hidden mesh-gradient transition-colors duration-300">
-        <header className="flex items-center justify-between whitespace-nowrap px-6 py-4 md:px-12 md:h-20 md:py-0 sticky top-0 z-50 shrink-0">
+    <div className={`flex flex-col min-h-screen w-full overflow-x-hidden font-display ${isDarkMode ? "dark" : ""}`}>
+      <div className="bg-[#f8fafc] dark:bg-[#131022] text-slate-900 dark:text-white mesh-gradient flex flex-col min-h-screen w-full transition-colors duration-300">
+        <header className="flex items-center justify-between px-4 lg:px-12 h-16 lg:h-20 shrink-0 sticky top-0 z-50 whitespace-nowrap">
           <div className="flex items-center gap-3 px-2 text-slate-900 dark:text-white transition-colors">
             {/* <div className="bg-[#0da6f2] text-white p-1 rounded-lg flex items-center justify-center"> */}
             {/* <span className="material-symbols-outlined text-2xl">view_in_ar</span> */}
@@ -64,9 +64,9 @@ const LoginPage = () => {
           </div>
         </header>
 
-        <main className="flex-1 flex items-center justify-center p-4">
-          <div className="max-w-[1000px] w-full grid grid-cols-1 lg:grid-cols-2 gap-0 overflow-hidden rounded-2xl shadow-2xl glass-card border-none dark:border-solid dark:border-white/5 dark:bg-[#1a1631]/60">
-            <div className="hidden lg:flex flex-col justify-center p-12 bg-gradient-to-br from-primary/5 to-accent-blue/5 dark:from-primary/10 dark:to-accent-blue/5 border-r border-slate-100 dark:border-white/5 relative overflow-hidden group">
+        <main className="flex-1 flex items-center justify-center px-4 py-8 md:px-12 md:py-0 w-full overflow-y-auto md:overflow-visible">
+          <div className="w-full max-w-[1080px] grid grid-cols-1 md:grid-cols-2 rounded-2xl md:rounded-3xl shadow-2xl glass-card border-none dark:border-solid dark:border-white/5 dark:bg-[#1a1631]/60 overflow-hidden">
+            <div className="hidden md:flex flex-col justify-center p-6 lg:p-10 bg-gradient-to-br from-primary/5 to-accent-blue/5 dark:from-primary/10 dark:to-accent-blue/5 border-r border-slate-100 dark:border-white/5 relative group md:order-1">
               <div className="absolute inset-0 opacity-40 dark:opacity-20 pointer-events-none">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-accent-blue/20 dark:bg-accent-blue rounded-full blur-[100px] dark:blur-[120px] -translate-y-1/2 translate-x-1/2"></div>
                 <div className="absolute bottom-0 left-0 w-64 h-64 bg-accent-green/20 dark:bg-accent-green rounded-full blur-[100px] dark:blur-[120px] translate-y-1/2 -translate-x-1/2"></div>
@@ -115,8 +115,8 @@ const LoginPage = () => {
               </div>
             </div>
 
-            <div className="flex flex-col p-8 md:p-6 lg:p-10 relative bg-white/40 dark:bg-[#131022]/40 border-b md:border-b-0 md:border-r border-white/40 dark:border-white/5">
-              <div className="flex mb-10 md:mb-6">
+            <div className="flex flex-col p-6 lg:p-10 relative bg-white/40 dark:bg-[#131022]/40 md:order-2">
+              <div className="flex mb-6">
                 <div className="flex h-10 w-full max-w-[240px] items-center justify-center rounded-xl bg-slate-100/80 dark:bg-slate-800/80 p-1 border border-slate-200/50 dark:border-slate-700/50">
                   <label className="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-lg px-2 has-[:checked]:bg-primary has-[:checked]:shadow-lg has-[:checked]:text-white text-slate-500 dark:text-slate-400 text-xs font-semibold transition-all">
                     <span className="truncate">Login</span>
@@ -129,9 +129,9 @@ const LoginPage = () => {
                 </div>
               </div>
 
-              <div className="flex flex-col gap-1 mb-8 md:mb-6">
-                <h2 className="text-2xl md:text-xl font-bold text-slate-900 dark:text-white tracking-tight">Welcome Back</h2>
-                <p className="text-sm md:text-xs text-slate-500 dark:text-white/40">Initialize your session to continue your curriculum.</p>
+              <div className="flex flex-col gap-1 mb-6">
+                <h2 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight">Welcome Back</h2>
+                <p className="text-xs text-slate-500 dark:text-white/40">Initialize your session to continue your curriculum.</p>
               </div>
 
               <form className="flex flex-col gap-5 md:gap-3.5" onSubmit={handleSubmit}>
@@ -247,7 +247,7 @@ const LoginPage = () => {
           </div>
         </main>
 
-        <footer className="px-6 md:px-20 py-8 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] text-slate-400 dark:text-white/30">
+        <footer className="px-4 lg:px-12 py-6 lg:py-0 min-h-16 shrink-0 flex flex-col lg:flex-row justify-between items-center text-slate-400 dark:text-white/30 text-[10px] gap-4 lg:gap-0">
           <div className="flex items-center gap-6">
             <a className="transition-colors hover:text-primary dark:hover:text-white" href="#">Security Protocol</a>
             <a className="transition-colors hover:text-primary dark:hover:text-white" href="#">Terms of Service</a>
