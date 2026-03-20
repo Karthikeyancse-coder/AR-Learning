@@ -20,7 +20,9 @@ const DashboardLayout = () => {
   const [inputText, setInputText] = useState("");
   const chatEndRef = useRef<HTMLDivElement>(null);
 
-  const shouldHideSidebar = location.pathname === "/dashboard/biology/human-anatomy";
+  const isSidebarHiddenForThisRoute = 
+    (location.pathname.startsWith("/dashboard/biology/") && location.pathname !== "/dashboard/biology") ||
+    (location.pathname.startsWith("/dashboard/chemistry/") && location.pathname !== "/dashboard/chemistry");
   const isActive = (path: string) => location.pathname.startsWith(path) && path !== "/dashboard" || (path === "/dashboard" && (location.pathname === "/dashboard" || location.pathname === "/dashboard/home"));
 
   const handleSendMessage = async () => {
@@ -46,7 +48,7 @@ const DashboardLayout = () => {
       <div className="bg-[#f9f9ff] dark:bg-[#0f172a] text-[#181c22] dark:text-slate-200 min-h-screen antialiased select-none lg:select-auto transition-colors duration-300">
 
         {/* Desktop Sidebar (Hidden on mobile/tablet) */}
-        <aside className={`${shouldHideSidebar ? 'hidden' : 'hidden lg:flex'} h-screen w-64 fixed left-0 top-0 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-[#1e293b] shadow-sm flex-col p-4 z-50 transition-colors duration-300`}>
+        <aside className={`${isSidebarHiddenForThisRoute ? 'hidden' : 'hidden lg:flex'} h-screen w-64 fixed left-0 top-0 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-[#1e293b] shadow-sm flex-col p-4 z-50 transition-colors duration-300`}>
           {/* Brand Header */}
           <div className="flex items-center gap-3 px-2 mb-10 mt-2">
             <div className="w-10 h-10 bg-[#006493] dark:bg-blue-600 rounded-lg flex items-center justify-center text-white shadow-md transition-colors">
@@ -137,9 +139,9 @@ const DashboardLayout = () => {
         </nav>
 
         {/* Main Canvas */}
-        <main className={`${shouldHideSidebar ? '' : 'lg:ml-64'} min-h-screen relative flex flex-col pt-16 lg:pt-0`}>
+        <main className={`${isSidebarHiddenForThisRoute ? '' : 'lg:ml-64'} min-h-screen relative flex flex-col pt-16 lg:pt-0`}>
           {/* TopNavBar Shell */}
-          <header className={`fixed top-0 right-0 left-0 ${shouldHideSidebar ? '' : 'lg:left-64'} h-16 border-b border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-[#1e293b]/90 backdrop-blur-md flex items-center justify-between px-4 sm:px-6 lg:px-8 z-40 transition-colors duration-300`}>
+          <header className={`fixed top-0 right-0 left-0 ${isSidebarHiddenForThisRoute ? '' : 'lg:left-64'} h-16 border-b border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-[#1e293b]/90 backdrop-blur-md flex items-center justify-between px-4 sm:px-6 lg:px-8 z-40 transition-colors duration-300`}>
             <div className="flex items-center gap-2 sm:gap-3 lg:hidden">
               <div className="w-8 h-8 bg-[#006493] dark:bg-blue-600 rounded-lg flex items-center justify-center text-white shadow-sm transition-colors">
                 <span className="material-symbols-outlined text-sm font-bold">school</span>
@@ -181,7 +183,7 @@ const DashboardLayout = () => {
 
           {/* Dynamic Content Area */}
           <div className="flex-1 w-full lg:pt-16 pb-20 lg:pb-0">
-            <div className={`${shouldHideSidebar ? 'w-full h-full p-0' : 'p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto h-full'}`}>
+            <div className={`${isSidebarHiddenForThisRoute ? 'w-full h-full p-0' : 'p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto h-full'}`}>
               <Outlet />
             </div>
           </div>
