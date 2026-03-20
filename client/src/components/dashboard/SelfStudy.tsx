@@ -1,299 +1,343 @@
-import { useRef, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { type RootState } from "../../redux/store";
-import { sendMessage, clearChat } from "../../redux/slices/geminiSlice";
-import ReactMarkdown from "react-markdown";
-import remarkMath from "remark-math";
-import rehypeKatex from "rehype-katex";
-import "katex/dist/katex.min.css";
+import React from 'react';
 
 const SelfStudy = () => {
-  const dispatch = useAppDispatch();
-  const { messages, loading } = useAppSelector(
-    (state: RootState) => state.gemini,
-  );
-  const [inputText, setInputText] = useState("");
-  const [selectedImage, setSelectedImage] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const chatEndRef = useRef<HTMLDivElement>(null);
-
-  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setSelectedImage(file);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const handleRemoveImage = () => {
-    setSelectedImage(null);
-    setImagePreview(null);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
-  };
-
-  const handleSendMessage = async () => {
-    if (!inputText.trim() && !selectedImage) return;
-
-    await dispatch(
-      sendMessage({
-        message: inputText,
-        imageFile: selectedImage || undefined,
-      }),
-    );
-
-    setInputText("");
-    setSelectedImage(null);
-    setImagePreview(null);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
-
-    // Auto-scroll to bottom
-    setTimeout(() => {
-      chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, 100);
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      handleSendMessage();
-    }
-  };
-
   return (
-    <div className="h-full flex flex-col animate-in fade-in slide-in-from-bottom-4 duration-500">
-      {/* Status Bar Timer */}
-      <div className="bg-gray-200 text-gray-700 px-6 py-3  shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,0.5)] flex justify-between items-center mb-4 shrink-0">
-        <div className="flex items-center gap-2">
-          <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-          <span className="font-medium text-sm">AI Study Assistant</span>
-        </div>
-        <button
-          onClick={() => dispatch(clearChat())}
-          className="text-xs text-gray-500 hover:text-gray-700 transition-colors"
-        >
-          Clear Chat
-        </button>
-      </div>
+    <div className="w-full h-full p-6 md:p-8 overflow-y-auto custom-scrollbar bg-[#f9f9ff] dark:bg-[#0B1121] text-[#181c22] dark:text-white min-h-screen">
+      <style>{`
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        :is(.dark .glass-card) {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+      `}</style>
 
-      {/* Chat Area */}
-      <div className="flex-1 bg-gray-200 rounded-3xl shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,0.5)] overflow-hidden flex flex-col min-h-0">
-        <div className="bg-gray-200 px-4 py-3 border-b border-gray-300/30 flex items-center gap-3 shrink-0">
-          <div className="w-8 h-8 bg-gray-900 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-md">
-            AI
-          </div>
-          <div>
-            <h3 className="font-bold text-gray-700 text-sm">LearnLLM</h3>
-            <p className="text-[10px] text-green-500 flex items-center gap-1 font-medium">
-              <span className="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
-              Online
-            </p>
+      {/* Header Section */}
+      <header className="mb-10">
+        <h2 className="text-3xl font-black tracking-tight mb-1 text-slate-900 dark:text-white">Assignments</h2>
+        <p className="text-slate-500 dark:text-slate-400 font-medium">Track tasks, deadlines, and submissions.</p>
+      </header>
+
+      {/* Summary Cards Layout */}
+      <section className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+        <div className="glass-card p-6 rounded-2xl flex flex-col gap-2 shadow-sm">
+          <span className="text-[#006493] dark:text-blue-400 text-xs font-bold uppercase tracking-widest">Total</span>
+          <div className="flex items-baseline gap-2">
+            <span className="text-4xl font-black text-slate-900 dark:text-white">12</span>
+            <span className="text-slate-500 dark:text-slate-400 text-sm">Tasks</span>
           </div>
         </div>
+        <div className="bg-[#0daffd]/10 border border-[#006493]/20 dark:border-blue-400/20 p-6 rounded-2xl flex flex-col gap-2">
+          <span className="text-[#006493] dark:text-blue-400 text-xs font-bold uppercase tracking-widest">Pending</span>
+          <div className="flex items-baseline gap-2">
+            <span className="text-4xl font-black text-[#006493] dark:text-blue-400">4</span>
+            <span className="text-[#006493]/60 dark:text-blue-400/60 text-sm">Active</span>
+          </div>
+        </div>
+        <div className="glass-card p-6 rounded-2xl flex flex-col gap-2 shadow-sm">
+          <span className="text-emerald-600 dark:text-emerald-400 text-xs font-bold uppercase tracking-widest">Submitted</span>
+          <div className="flex items-baseline gap-2">
+            <span className="text-4xl font-black text-slate-900 dark:text-white">7</span>
+            <span className="text-slate-500 dark:text-slate-400 text-sm">Done</span>
+          </div>
+        </div>
+        <div className="bg-red-500/10 border border-red-500/20 p-6 rounded-2xl flex flex-col gap-2">
+          <span className="text-red-600 dark:text-red-400 text-xs font-bold uppercase tracking-widest">Overdue</span>
+          <div className="flex items-baseline gap-2">
+            <span className="text-4xl font-black text-red-600 dark:text-red-400">1</span>
+            <span className="text-red-600/60 dark:text-red-400/60 text-sm">Alert</span>
+          </div>
+        </div>
+      </section>
 
-        <div className="flex-1 p-4 overflow-y-auto space-y-4 custom-scrollbar">
-          {messages.length === 0 ? (
-            <div className="flex gap-3">
-              <div className="w-8 h-8 bg-gray-900 rounded-full shrink-0 flex items-center justify-center text-white font-bold text-xs shadow-md">
-                AI
-              </div>
-              <div className="bg-white p-3 rounded-2xl rounded-tl-none text-sm text-gray-700 max-w-[85%] shadow-md">
-                Hello! I'm LearnLLM, your personal AI study assistant. Upload an
-                image or ask me a question to get started!
-              </div>
+      {/* Main Bento Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 pb-32 lg:pb-8">
+        {/* Assignments List (Left/Center Column) */}
+        <div className="lg:col-span-8 space-y-6">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-bold flex items-center gap-2 text-slate-900 dark:text-white">
+              <span className="material-symbols-outlined text-[#006493] dark:text-blue-400">list_alt</span>
+              Active Tasks
+            </h3>
+            <div className="flex gap-2">
+              <button className="px-4 py-1.5 rounded-full text-xs font-bold bg-[#006493] dark:bg-blue-500 text-white shadow-sm">All</button>
+              <button className="px-4 py-1.5 rounded-full text-xs font-bold bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors text-slate-700 dark:text-slate-300 shadow-sm">Drafts</button>
             </div>
-          ) : (
-            messages.map((msg: any, idx: number) => (
-              <div
-                key={idx}
-                className={`flex gap-3 ${
-                  msg.role === "user" ? "flex-row-reverse" : ""
-                }`}
-              >
-                <div
-                  className={`w-8 h-8 rounded-full shrink-0 flex items-center justify-center text-white font-bold text-xs shadow-md ${
-                    msg.role === "user" ? "bg-blue-400" : "bg-gray-900"
-                  }`}
-                >
-                  {msg.role === "user" ? "ME" : "AI"}
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Card 1 */}
+            <div className="glass-card group hover:shadow-xl transition-all duration-300 rounded-3xl overflow-hidden flex flex-col border border-white/40 dark:border-slate-700/50">
+              <div className="p-6">
+                <div className="flex justify-between items-start mb-6">
+                  <div className="w-14 h-14 bg-[#006493]/10 dark:bg-blue-500/10 rounded-2xl flex items-center justify-center text-[#006493] dark:text-blue-400 group-hover:scale-110 transition-transform">
+                    <span className="material-symbols-outlined text-3xl">biotech</span>
+                  </div>
+                  <span className="bg-red-100 dark:bg-red-500/20 text-red-600 dark:text-red-400 text-[10px] font-black px-3 py-1 rounded-full uppercase">Urgent</span>
                 </div>
-                <div
-                  className={`p-3 rounded-2xl text-sm max-w-[85%] shadow-md ${
-                    msg.role === "user"
-                      ? "bg-blue-400 text-white rounded-tr-none"
-                      : "bg-white text-gray-700 rounded-tl-none"
-                  }`}
-                >
-                  {msg.imageUrl && (
-                    <img
-                      src={msg.imageUrl}
-                      alt="Uploaded"
-                      className="rounded-lg mb-2 max-w-full h-auto max-h-48 object-contain"
-                    />
-                  )}
-                  <div className="markdown-content">
-                    <ReactMarkdown
-                      remarkPlugins={[remarkMath]}
-                      rehypePlugins={[rehypeKatex]}
-                      components={{
-                        p: ({ children }) => (
-                          <p className="mb-2 last:mb-0">{children}</p>
-                        ),
-                        ul: ({ children }) => (
-                          <ul className="list-disc ml-4 mb-2">{children}</ul>
-                        ),
-                        ol: ({ children }) => (
-                          <ol className="list-decimal ml-4 mb-2">{children}</ol>
-                        ),
-                        li: ({ children }) => (
-                          <li className="mb-1">{children}</li>
-                        ),
-                        code: ({ children }) => (
-                          <code className="bg-gray-100 px-1 rounded text-pink-600 font-mono text-xs">
-                            {children}
-                          </code>
-                        ),
-                        pre: ({ children }) => (
-                          <pre className="bg-gray-900 text-gray-100 p-3 rounded-lg overflow-x-auto my-2 text-xs">
-                            {children}
-                          </pre>
-                        ),
-                      }}
-                    >
-                      {msg.content}
-                    </ReactMarkdown>
+                <h4 className="text-xl font-bold mb-2 group-hover:text-[#006493] dark:group-hover:text-blue-400 transition-colors text-slate-900 dark:text-white">Organic Chemistry Quiz</h4>
+                <p className="text-slate-500 dark:text-slate-400 text-sm line-clamp-2 mb-6">Complete the virtual lab experiment and submit your molecular structure findings.</p>
+                
+                <div className="space-y-3">
+                  <div className="flex justify-between text-xs font-bold mb-1 text-slate-700 dark:text-slate-300">
+                    <span>Progress</span>
+                    <span>75%</span>
+                  </div>
+                  <div className="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                    <div className="h-full bg-[#006493] dark:bg-blue-500 w-3/4 rounded-full"></div>
                   </div>
                 </div>
               </div>
-            ))
-          )}
-          {loading && (
-            <div className="flex gap-3">
-              <div className="w-8 h-8 bg-gray-900 rounded-full shrink-0 flex items-center justify-center text-white font-bold text-xs shadow-md">
-                AI
+              <div className="mt-auto p-4 bg-slate-50/50 dark:bg-slate-800/50 flex items-center justify-between border-t border-slate-100 dark:border-slate-700/50">
+                <div className="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-xs font-medium">
+                  <span className="material-symbols-outlined text-sm">calendar_today</span>
+                  Today, 11:59 PM
+                </div>
+                <button className="text-[#006493] dark:text-blue-400 font-bold text-sm flex items-center gap-1 group-hover:gap-2 transition-all cursor-pointer">
+                  Open <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                </button>
               </div>
-              <div className="bg-white p-3 rounded-2xl rounded-tl-none text-sm text-gray-700 shadow-md">
-                <div className="flex gap-1">
-                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                  <div
-                    className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
-                    style={{ animationDelay: "0.1s" }}
-                  ></div>
-                  <div
-                    className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
-                    style={{ animationDelay: "0.2s" }}
-                  ></div>
+            </div>
+
+            {/* Card 2 */}
+            <div className="glass-card group hover:shadow-xl transition-all duration-300 rounded-3xl overflow-hidden flex flex-col border border-white/40 dark:border-slate-700/50">
+              <div className="p-6">
+                <div className="flex justify-between items-start mb-6">
+                  <div className="w-14 h-14 bg-orange-500/10 rounded-2xl flex items-center justify-center text-orange-600 dark:text-orange-400 group-hover:scale-110 transition-transform">
+                    <span className="material-symbols-outlined text-3xl">history_edu</span>
+                  </div>
+                  <span className="bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-[10px] font-black px-3 py-1 rounded-full uppercase">Normal</span>
+                </div>
+                <h4 className="text-xl font-bold mb-2 group-hover:text-[#006493] dark:group-hover:text-blue-400 transition-colors text-slate-900 dark:text-white">Ancient Civilizations Essay</h4>
+                <p className="text-slate-500 dark:text-slate-400 text-sm line-clamp-2 mb-6">Draft a 1500-word analysis on the economic structures of Mesopotamia.</p>
+                
+                <div className="space-y-3">
+                  <div className="flex justify-between text-xs font-bold mb-1 text-slate-700 dark:text-slate-300">
+                    <span>Progress</span>
+                    <span>20%</span>
+                  </div>
+                  <div className="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                    <div className="h-full bg-[#0daffd] dark:bg-sky-400 w-1/5 rounded-full"></div>
+                  </div>
                 </div>
               </div>
+              <div className="mt-auto p-4 bg-slate-50/50 dark:bg-slate-800/50 flex items-center justify-between border-t border-slate-100 dark:border-slate-700/50">
+                <div className="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-xs font-medium">
+                  <span className="material-symbols-outlined text-sm">calendar_today</span>
+                  Oct 24, 2023
+                </div>
+                <button className="text-[#006493] dark:text-blue-400 font-bold text-sm flex items-center gap-1 group-hover:gap-2 transition-all cursor-pointer">
+                  Open <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                </button>
+              </div>
             </div>
-          )}
-          <div ref={chatEndRef} />
-        </div>
 
-        {/* Input Area */}
-        <div className="p-3 border-t border-gray-300/30 bg-gray-200 shrink-0">
-          {imagePreview && (
-            <div className="mb-2 relative inline-block">
-              <img
-                src={imagePreview}
-                alt="Preview"
-                className="h-20 w-20 object-cover rounded-lg border-2 border-gray-300"
-              />
-              <button
-                onClick={handleRemoveImage}
-                className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs hover:bg-red-600 transition-colors"
-              >
-                ×
-              </button>
+            {/* Card 3 */}
+            <div className="glass-card group hover:shadow-xl transition-all duration-300 rounded-3xl overflow-hidden flex flex-col border border-white/40 dark:border-slate-700/50">
+              <div className="p-6">
+                <div className="flex justify-between items-start mb-6">
+                  <div className="w-14 h-14 bg-emerald-500/10 rounded-2xl flex items-center justify-center text-emerald-600 dark:text-emerald-400 group-hover:scale-110 transition-transform">
+                    <span className="material-symbols-outlined text-3xl">code</span>
+                  </div>
+                  <span className="bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-[10px] font-black px-3 py-1 rounded-full uppercase">Review</span>
+                </div>
+                <h4 className="text-xl font-bold mb-2 group-hover:text-[#006493] dark:group-hover:text-blue-400 transition-colors text-slate-900 dark:text-white">Python Data Structures</h4>
+                <p className="text-slate-500 dark:text-slate-400 text-sm line-clamp-2 mb-6">Implement a balanced binary search tree in Python with O(log n) complexity.</p>
+                
+                <div className="space-y-3">
+                  <div className="flex justify-between text-xs font-bold mb-1 text-slate-700 dark:text-slate-300">
+                    <span>Progress</span>
+                    <span>95%</span>
+                  </div>
+                  <div className="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                    <div className="h-full bg-emerald-500 w-[95%] rounded-full"></div>
+                  </div>
+                </div>
+              </div>
+              <div className="mt-auto p-4 bg-slate-50/50 dark:bg-slate-800/50 flex items-center justify-between border-t border-slate-100 dark:border-slate-700/50">
+                <div className="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-xs font-medium">
+                  <span className="material-symbols-outlined text-sm">calendar_today</span>
+                  Oct 26, 2023
+                </div>
+                <button className="text-[#006493] dark:text-blue-400 font-bold text-sm flex items-center gap-1 group-hover:gap-2 transition-all cursor-pointer">
+                  Open <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                </button>
+              </div>
             </div>
-          )}
-          <div className="relative">
-            <input
-              type="file"
-              ref={fileInputRef}
-              onChange={handleImageSelect}
-              accept="image/*"
-              className="hidden"
-            />
-            <input
-              type="text"
-              value={inputText}
-              onChange={(e) => setInputText(e.target.value)}
-              onKeyPress={handleKeyPress}
-              placeholder="Ask LearnLLM..."
-              disabled={loading}
-              className="w-full pl-12 pr-12 py-3 bg-gray-200 rounded-2xl text-sm focus:outline-none shadow-[inset_-2px_-2px_5px_rgba(255,255,255,0.7),inset_2px_2px_5px_rgba(0,0,0,0.1)] placeholder:text-gray-400 text-gray-700 disabled:opacity-50"
-            />
-            <button
-              onClick={() => fileInputRef.current?.click()}
-              disabled={loading}
-              className="absolute left-2 top-1/2 transform -translate-y-1/2 p-2 text-gray-500 hover:text-gray-700 rounded-lg transition-colors disabled:opacity-50"
-            >
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                />
-              </svg>
-            </button>
-            <button
-              onClick={handleSendMessage}
-              disabled={loading || (!inputText.trim() && !selectedImage)}
-              className="absolute right-2 top-1/2 transform -translate-y-1/2 p-2 text-blue-500 hover:text-blue-600 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
-                />
-              </svg>
-            </button>
+
+            {/* Card 4 */}
+            <div className="glass-card group hover:shadow-xl transition-all duration-300 rounded-3xl overflow-hidden flex flex-col border border-white/40 dark:border-slate-700/50">
+              <div className="p-6">
+                <div className="flex justify-between items-start mb-6">
+                  <div className="w-14 h-14 bg-pink-500/10 rounded-2xl flex items-center justify-center text-pink-600 dark:text-pink-400 group-hover:scale-110 transition-transform">
+                    <span className="material-symbols-outlined text-3xl">palette</span>
+                  </div>
+                  <span className="bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-[10px] font-black px-3 py-1 rounded-full uppercase">Creative</span>
+                </div>
+                <h4 className="text-xl font-bold mb-2 group-hover:text-[#006493] dark:group-hover:text-blue-400 transition-colors text-slate-900 dark:text-white">Modernism Portfolio</h4>
+                <p className="text-slate-500 dark:text-slate-400 text-sm line-clamp-2 mb-6">Assemble a digital portfolio of five artworks inspired by early 20th century modernism.</p>
+                
+                <div className="space-y-3">
+                  <div className="flex justify-between text-xs font-bold mb-1 text-slate-700 dark:text-slate-300">
+                    <span>Progress</span>
+                    <span>45%</span>
+                  </div>
+                  <div className="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                    <div className="h-full bg-[#006493] dark:bg-blue-500 w-[45%] rounded-full"></div>
+                  </div>
+                </div>
+              </div>
+              <div className="mt-auto p-4 bg-slate-50/50 dark:bg-slate-800/50 flex items-center justify-between border-t border-slate-100 dark:border-slate-700/50">
+                <div className="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-xs font-medium">
+                  <span className="material-symbols-outlined text-sm">calendar_today</span>
+                  Nov 01, 2023
+                </div>
+                <button className="text-[#006493] dark:text-blue-400 font-bold text-sm flex items-center gap-1 group-hover:gap-2 transition-all cursor-pointer">
+                  Open <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
+
+        {/* Side Sidebar (Right Column) */}
+        <div className="lg:col-span-4 space-y-8">
+          
+          {/* AI Study Assistant */}
+          <div className="relative overflow-hidden rounded-3xl bg-slate-800 dark:bg-slate-900 p-1 shadow-md">
+            <div className="absolute inset-0 bg-gradient-to-br from-[#006493]/40 dark:from-blue-500/30 to-transparent pointer-events-none"></div>
+            <div className="relative bg-slate-800 dark:bg-slate-900 rounded-[22px] p-6 text-white border border-slate-700/50">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center backdrop-blur-sm shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)]">
+                  <span className="material-symbols-outlined text-sky-400 text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>bolt</span>
+                </div>
+                <div>
+                  <h4 className="font-bold text-sm">Study Assistant</h4>
+                  <div className="flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]"></span>
+                    <span className="text-[10px] text-white/60 font-semibold tracking-wide uppercase">Active now</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="space-y-4 mb-6">
+                <div className="bg-white/10 backdrop-blur-sm rounded-2xl rounded-tl-none p-4 text-xs leading-relaxed max-w-[90%] border border-white/5 shadow-sm">
+                  Hello Alex! I see you have Chemistry due today. Need a quick summary of Redox reactions?
+                </div>
+                <div className="bg-[#006493]/50 dark:bg-blue-600/50 backdrop-blur-sm rounded-2xl rounded-tr-none p-4 text-xs leading-relaxed max-w-[90%] ml-auto text-right border border-[#006493]/30 dark:border-blue-500/30 shadow-sm">
+                  Yes, please! Focus on electron transfer rules.
+                </div>
+              </div>
+              
+              <div className="relative mt-2">
+                <input 
+                  className="w-full bg-slate-900/50 dark:bg-black/40 border border-white/10 rounded-xl py-3 px-4 pr-10 text-xs placeholder:text-white/40 focus:ring-1 focus:ring-sky-400/50 focus:border-sky-400/30 transition-all text-white shadow-inner" 
+                  placeholder="Ask anything..." 
+                  type="text" 
+                />
+                <button className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-sky-400 transition-colors pointer-events-auto cursor-pointer">
+                  <span className="material-symbols-outlined text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>send</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Productivity Section / Countdowns */}
+          <div className="glass-card rounded-3xl p-6 shadow-sm">
+            <h4 className="font-black text-sm mb-6 flex items-center gap-2 text-slate-900 dark:text-white uppercase tracking-tight">
+              <span className="material-symbols-outlined text-[#006493] dark:text-blue-400">timer</span>
+              Upcoming Deadlines
+            </h4>
+            
+            <div className="space-y-6">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-xl bg-red-500/10 flex flex-col items-center justify-center text-red-600 dark:text-red-400 leading-none shadow-sm">
+                    <span className="text-lg font-black tracking-tighter">04</span>
+                    <span className="text-[8px] font-bold uppercase tracking-wider">Hours</span>
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold truncate w-32 text-slate-900 dark:text-white">Chem Quiz #4</p>
+                    <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">Submission portal</p>
+                  </div>
+                </div>
+                <button className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg text-slate-400 transition-colors cursor-pointer">
+                  <span className="material-symbols-outlined text-lg">more_vert</span>
+                </button>
+              </div>
+              
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-xl bg-[#0daffd]/10 flex flex-col items-center justify-center text-[#006493] dark:text-blue-400 leading-none shadow-sm">
+                    <span className="text-lg font-black tracking-tighter">02</span>
+                    <span className="text-[8px] font-bold uppercase tracking-wider">Days</span>
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold truncate w-32 text-slate-900 dark:text-white">History Essay</p>
+                    <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">Review required</p>
+                  </div>
+                </div>
+                <button className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg text-slate-400 transition-colors cursor-pointer">
+                  <span className="material-symbols-outlined text-lg">more_vert</span>
+                </button>
+              </div>
+              
+              <div className="flex items-center justify-between opacity-60 hover:opacity-100 transition-opacity">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-xl bg-slate-200 dark:bg-slate-800 flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 leading-none shadow-sm">
+                    <span className="text-lg font-black tracking-tighter">05</span>
+                    <span className="text-[8px] font-bold uppercase tracking-wider">Days</span>
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold truncate w-32 text-slate-900 dark:text-white">Math Module 2</p>
+                    <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">Not started</p>
+                  </div>
+                </div>
+                <button className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg text-slate-400 transition-colors cursor-pointer">
+                  <span className="material-symbols-outlined text-lg">more_vert</span>
+                </button>
+              </div>
+            </div>
+            
+            <button className="w-full mt-8 py-3 border border-dashed border-slate-300 dark:border-slate-700 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-400 hover:border-[#006493] dark:hover:border-blue-400 hover:text-[#006493] dark:hover:text-blue-400 transition-all bg-slate-50/50 dark:bg-slate-800/20 hover:bg-slate-50 dark:hover:bg-slate-800/80 cursor-pointer shadow-sm">
+              View Study Schedule
+            </button>
+          </div>
+
+          {/* Recent Submissions Mini List */}
+          <div className="px-2 pt-2">
+            <h4 className="font-bold text-xs text-slate-500 dark:text-slate-400 mb-4 flex items-center gap-2 uppercase tracking-tight">
+              <span className="material-symbols-outlined text-[16px]">history</span>
+              Recently Completed
+            </h4>
+            <ul className="space-y-4">
+              <li className="flex items-center gap-3">
+                <div className="w-6 h-6 rounded-full bg-emerald-100 dark:bg-emerald-500/20 flex items-center justify-center shrink-0">
+                  <span className="material-symbols-outlined text-emerald-500 text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+                </div>
+                <div>
+                  <p className="text-xs font-bold text-slate-900 dark:text-white">Physics Lab Report</p>
+                  <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">Graded: 98/100</p>
+                </div>
+              </li>
+              <li className="flex items-center gap-3">
+                <div className="w-6 h-6 rounded-full bg-emerald-100 dark:bg-emerald-500/20 flex items-center justify-center shrink-0">
+                  <span className="material-symbols-outlined text-emerald-500 text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+                </div>
+                <div>
+                  <p className="text-xs font-bold text-slate-900 dark:text-white">English Literature Quiz</p>
+                  <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">Pending Grading</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+        </div>
       </div>
-      <style>{`
-        .custom-scrollbar::-webkit-scrollbar {
-          width: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-          background: transparent;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: rgba(0, 0, 0, 0.1);
-          border-radius: 10px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: rgba(0, 0, 0, 0.2);
-        }
-        .markdown-content p {
-          margin-bottom: 0.5rem;
-        }
-        .markdown-content p:last-child {
-          margin-bottom: 0;
-        }
-      `}</style>
     </div>
   );
 };
