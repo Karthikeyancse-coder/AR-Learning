@@ -39,7 +39,20 @@ const SignupPage = () => {
     const newTheme = !isDarkMode;
     setIsDarkMode(newTheme);
     localStorage.setItem("theme", newTheme ? "dark" : "light");
+    if (newTheme) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
   };
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [isDarkMode]);
 
   const typingText = useTypingEffect("Master the \nNew Dimension", 60, 2000);
   const parts = typingText.split("\n");
@@ -60,10 +73,10 @@ const SignupPage = () => {
             <button
               onClick={toggleDarkMode}
               aria-label="Toggle dark mode"
-              className="flex items-center justify-center size-10 rounded-xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-sm hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors text-slate-700 dark:text-slate-300"
+              className="relative z-[100] pointer-events-auto flex items-center justify-center size-10 rounded-xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-sm hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors text-slate-700 dark:text-slate-300"
             >
               <span className="material-symbols-outlined !text-xl animate-spin-slow">
-                {isDarkMode ? "dark_mode" : "wb_sunny"}
+                {isDarkMode ? "light_mode" : "dark_mode"}
               </span>
             </button>
           </div>
