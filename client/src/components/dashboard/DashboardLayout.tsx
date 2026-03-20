@@ -115,28 +115,30 @@ const DashboardLayout = () => {
         </aside>
 
         {/* Mobile/Tablet Bottom Navigation */}
-        <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-[#1e293b] border-t border-slate-200 dark:border-slate-800 px-6 py-3 pb-safe flex items-center justify-between z-50 transition-colors duration-300 shadow-[0_-4px_20px_rgba(0,0,0,0.05)] dark:shadow-none">
-          <button onClick={() => navigate("/dashboard")} className={`flex flex-col items-center gap-1 ${isActive("/dashboard") ? "text-[#006493] dark:text-blue-400" : "text-slate-400 hover:text-[#006493] dark:hover:text-blue-300"}`}>
-            <span className={`material-symbols-outlined ${isActive("/dashboard") ? "fill-icon" : ""}`}>dashboard</span>
-            <span className="text-[10px] font-bold">Dashboard</span>
-          </button>
-          <button onClick={() => navigate("/dashboard/chemistry")} className={`flex flex-col items-center gap-1 ${isActive("/dashboard/chemistry") ? "text-[#006493] dark:text-blue-400" : "text-slate-400 hover:text-[#006493] dark:hover:text-blue-300"}`}>
-            <span className={`material-symbols-outlined ${isActive("/dashboard/chemistry") ? "fill-icon" : ""}`}>school</span>
-            <span className="text-[10px] font-bold">Courses</span>
-          </button>
-          <button onClick={() => navigate("/dashboard/biology")} className={`flex flex-col items-center gap-1 ${isActive("/dashboard/biology") ? "text-[#006493] dark:text-blue-400" : "text-slate-400 hover:text-[#006493] dark:hover:text-blue-300"}`}>
-            <span className={`material-symbols-outlined ${isActive("/dashboard/biology") ? "fill-icon" : ""}`}>layers</span>
-            <span className="text-[10px] font-bold">Library</span>
-          </button>
-          <button onClick={() => navigate("/dashboard/self-study")} className={`flex flex-col items-center gap-1 ${isActive("/dashboard/self-study") ? "text-[#006493] dark:text-blue-400" : "text-slate-400 hover:text-[#006493] dark:hover:text-blue-300"}`}>
-            <span className={`material-symbols-outlined ${isActive("/dashboard/self-study") ? "fill-icon" : ""}`}>assignment</span>
-            <span className="text-[10px] font-bold">Tasks</span>
-          </button>
-          <button onClick={() => navigate("/dashboard/profile")} className={`flex flex-col items-center gap-1 ${isActive("/dashboard/profile") ? "text-[#006493] dark:text-blue-400" : "text-slate-400 hover:text-[#006493] dark:hover:text-blue-300"}`}>
-            <span className={`material-symbols-outlined ${isActive("/dashboard/profile") ? "fill-icon" : ""}`}>settings</span>
-            <span className="text-[10px] font-bold">Settings</span>
-          </button>
-        </nav>
+        {!isSidebarHiddenForThisRoute && (
+          <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-[#1e293b] border-t border-slate-200 dark:border-slate-800 px-6 py-3 pb-safe flex items-center justify-between z-50 transition-colors duration-300 shadow-[0_-4px_20px_rgba(0,0,0,0.05)] dark:shadow-none">
+            <button onClick={() => navigate("/dashboard")} className={`flex flex-col items-center gap-1 ${isActive("/dashboard") ? "text-[#006493] dark:text-blue-400" : "text-slate-400 hover:text-[#006493] dark:hover:text-blue-300"}`}>
+              <span className={`material-symbols-outlined ${isActive("/dashboard") ? "fill-icon" : ""}`}>dashboard</span>
+              <span className="text-[10px] font-bold">Dashboard</span>
+            </button>
+            <button onClick={() => navigate("/dashboard/chemistry")} className={`flex flex-col items-center gap-1 ${isActive("/dashboard/chemistry") ? "text-[#006493] dark:text-blue-400" : "text-slate-400 hover:text-[#006493] dark:hover:text-blue-300"}`}>
+              <span className={`material-symbols-outlined ${isActive("/dashboard/chemistry") ? "fill-icon" : ""}`}>school</span>
+              <span className="text-[10px] font-bold">Courses</span>
+            </button>
+            <button onClick={() => navigate("/dashboard/biology")} className={`flex flex-col items-center gap-1 ${isActive("/dashboard/biology") ? "text-[#006493] dark:text-blue-400" : "text-slate-400 hover:text-[#006493] dark:hover:text-blue-300"}`}>
+              <span className={`material-symbols-outlined ${isActive("/dashboard/biology") ? "fill-icon" : ""}`}>layers</span>
+              <span className="text-[10px] font-bold">Library</span>
+            </button>
+            <button onClick={() => navigate("/dashboard/self-study")} className={`flex flex-col items-center gap-1 ${isActive("/dashboard/self-study") ? "text-[#006493] dark:text-blue-400" : "text-slate-400 hover:text-[#006493] dark:hover:text-blue-300"}`}>
+              <span className={`material-symbols-outlined ${isActive("/dashboard/self-study") ? "fill-icon" : ""}`}>assignment</span>
+              <span className="text-[10px] font-bold">Tasks</span>
+            </button>
+            <button onClick={() => navigate("/dashboard/profile")} className={`flex flex-col items-center gap-1 ${isActive("/dashboard/profile") ? "text-[#006493] dark:text-blue-400" : "text-slate-400 hover:text-[#006493] dark:hover:text-blue-300"}`}>
+              <span className={`material-symbols-outlined ${isActive("/dashboard/profile") ? "fill-icon" : ""}`}>settings</span>
+              <span className="text-[10px] font-bold">Settings</span>
+            </button>
+          </nav>
+        )}
 
         {/* Main Canvas */}
         <main className={`${isSidebarHiddenForThisRoute ? '' : 'lg:ml-64'} min-h-screen relative flex flex-col pt-16 lg:pt-0`}>
