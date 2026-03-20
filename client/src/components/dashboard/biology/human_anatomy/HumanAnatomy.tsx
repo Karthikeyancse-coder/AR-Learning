@@ -278,7 +278,26 @@ const HumanAnatomy: React.FC = () => {
         </section>
 
         {/* Left Side / Sidebar */}
-        <aside className="order-2 md:order-1 w-full md:w-[30%] bg-[#fcfdfe] dark:bg-[#0F172A] border-t md:border-t-0 md:border-r border-slate-200 dark:border-slate-800 flex flex-col md:overflow-y-auto custom-scrollbar p-6 pb-44 md:pb-6 relative z-20">
+        <aside className="order-2 md:order-1 w-full md:w-[30%] bg-[#fcfdfe] dark:bg-[#0F172A] border-t md:border-t-0 md:border-r border-slate-200 dark:border-slate-800 flex flex-col md:overflow-y-auto custom-scrollbar p-6 pb-32 md:pb-6 relative z-20">
+          
+          {/* Mobile Tabs */}
+          <div className="md:hidden flex bg-slate-100/90 dark:bg-slate-800/90 p-1 rounded-xl pointer-events-auto border border-slate-200/50 dark:border-slate-700/50 shadow-sm mb-6 flex-shrink-0">
+            <button 
+              onClick={() => setActiveTab("learn")}
+              className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-all flex justify-center items-center gap-2 ${activeTab === 'learn' ? 'bg-white dark:bg-slate-700 shadow-sm text-sky-600 dark:text-sky-400' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'}`}
+            >
+              <span className="material-symbols-outlined text-[16px]">menu_book</span>
+              Learn
+            </button>
+            <button 
+              onClick={() => setActiveTab("assess")}
+              className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-all flex justify-center items-center gap-2 ${activeTab === 'assess' ? 'bg-white dark:bg-slate-700 shadow-sm text-sky-600 dark:text-sky-400' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'}`}
+            >
+              <span className="material-symbols-outlined text-[16px]">quiz</span>
+              Assess
+            </button>
+          </div>
+
           {activeTab === "learn" ? (
             <>
               <section className="mb-10">
@@ -438,31 +457,9 @@ const HumanAnatomy: React.FC = () => {
           )}
         </aside>
 
-        {/* Mobile View in AR Button and Tabs */}
-        <div className="md:hidden fixed bottom-0 left-0 right-0 p-4 bg-white/80 dark:bg-[#0B1121]/80 backdrop-blur-md border-t border-slate-100 dark:border-slate-800 z-[60] pointer-events-none flex flex-col gap-3">
-          <div className="flex bg-slate-100/90 dark:bg-slate-800/90 p-1 rounded-xl pointer-events-auto border border-slate-200/50 dark:border-slate-700/50 shadow-sm">
-            <button 
-              onClick={() => {
-                setActiveTab("learn");
-                window.scrollTo({ top: window.innerHeight, behavior: "smooth" });
-              }}
-              className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-all flex justify-center items-center gap-2 ${activeTab === 'learn' ? 'bg-white dark:bg-slate-700 shadow-sm text-sky-600 dark:text-sky-400' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'}`}
-            >
-              <span className="material-symbols-outlined text-[16px]">menu_book</span>
-              Learn
-            </button>
-            <button 
-              onClick={() => {
-                setActiveTab("assess");
-                window.scrollTo({ top: window.innerHeight, behavior: "smooth" });
-              }}
-              className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-all flex justify-center items-center gap-2 ${activeTab === 'assess' ? 'bg-white dark:bg-slate-700 shadow-sm text-sky-600 dark:text-sky-400' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'}`}
-            >
-              <span className="material-symbols-outlined text-[16px]">quiz</span>
-              Assess
-            </button>
-          </div>
-          <button onClick={handleViewAR} className="w-full flex items-center justify-center gap-3 bg-[#0ea5e9] text-white px-6 py-3.5 rounded-xl font-bold transition-all duration-200 shadow-[0_8px_20px_rgba(14,165,233,0.4)] active:scale-[0.98] cursor-pointer pointer-events-auto">
+        {/* Mobile View in AR Button */}
+        <div className="md:hidden fixed bottom-0 left-0 right-0 p-4 bg-white/80 dark:bg-[#0B1121]/80 backdrop-blur-md border-t border-slate-100 dark:border-slate-800 z-[60] pointer-events-none">
+          <button onClick={handleViewAR} className="w-full flex items-center justify-center gap-3 bg-[#0ea5e9] text-white px-6 py-4 rounded-xl font-bold transition-all duration-200 shadow-[0_8px_20px_rgba(14,165,233,0.4)] active:scale-[0.98] cursor-pointer pointer-events-auto">
             <span className="material-symbols-outlined text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>view_in_ar</span>
             <span className="text-sm font-bold uppercase tracking-wider">View in AR</span>
           </button>
