@@ -1,4 +1,4 @@
-import React from 'react';
+import { Link } from 'react-router-dom';
 
 const SelfStudy = () => {
   return (
@@ -39,9 +39,9 @@ const SelfStudy = () => {
               Your AI tutor noticed you struggled with enzyme kinetics yesterday. Conquer today's challenge to solidify your understanding and earn a 2x XP boost!
             </p>
             <div className="pt-2 flex flex-col sm:flex-row items-start sm:items-center gap-4">
-              <button className="bg-cyan-600 hover:bg-cyan-500 dark:bg-cyan-500 dark:hover:bg-cyan-400 text-white dark:text-slate-900 font-black px-8 py-3.5 rounded-2xl transition-all shadow-[0_4px_20px_rgba(6,182,212,0.3)] dark:shadow-[0_0_20px_rgba(6,182,212,0.4)] flex items-center gap-2 cursor-pointer">
+              <Link to="/dashboard/challenge" className="bg-cyan-600 hover:bg-cyan-500 dark:bg-cyan-500 dark:hover:bg-cyan-400 text-white dark:text-slate-900 font-black px-8 py-3.5 rounded-2xl transition-all shadow-[0_4px_20px_rgba(6,182,212,0.3)] dark:shadow-[0_0_20px_rgba(6,182,212,0.4)] flex items-center gap-2 cursor-pointer inline-flex">
                 Start Today's Challenge <span className="material-symbols-outlined">play_circle</span>
-              </button>
+              </Link>
               <div className="flex flex-col gap-1">
                 <div className="flex items-center gap-2 text-xs font-bold text-slate-500 dark:text-slate-300">
                   <span className="text-cyan-600 dark:text-cyan-400">+150 XP</span> Reward

@@ -312,7 +312,7 @@ const Homepage = () => {
                   AI
                 </div>
                 <div>
-                  <h3 className="font-bold text-gray-700 text-sm">LearnLLM</h3>
+                  <h3 className="font-bold text-gray-700 text-sm">Ai tutor</h3>
                   <p className="text-[10px] text-green-500 flex items-center gap-1 font-medium">
                     <span className="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
                     Online
@@ -356,7 +356,7 @@ const Homepage = () => {
                 <div className="relative">
                   <input
                     type="text"
-                    placeholder="Ask LearnLLM..."
+                    placeholder="Ask Ai tutor..."
                     className="w-full pl-4 pr-12 py-3 bg-gray-200 rounded-2xl text-sm focus:outline-none shadow-[inset_-2px_-2px_5px_rgba(255,255,255,0.7),inset_2px_2px_5px_rgba(0,0,0,0.1)] placeholder:text-gray-400 text-gray-700"
                   />
                   <button className="absolute right-2 top-1/2 transform -translate-y-1/2 p-2 text-blue-500 hover:text-blue-600 rounded-lg transition-colors">

@@ -17,6 +17,7 @@ import Profile from "./components/dashboard/Profile";
 import InorganicReaction from "./components/auth/chapters/chemistry/inorganic/InorganicReaction";
 import Assessment from "./components/auth/chapters/chemistry/Assessment";
 import HumanAnatomy from "./components/dashboard/biology/human_anatomy/HumanAnatomy";
+import ChallengeFlow from "./components/dashboard/ChallengeFlow";
 
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import { AuthProvider } from "./components/auth/AuthContext";
@@ -72,6 +73,10 @@ const router = createBrowserRouter([
           {
             path: "self-study",
             element: <SelfStudy />,
+          },
+          {
+            path: "challenge",
+            element: <ChallengeFlow />,
           },
           {
             path: "profile",

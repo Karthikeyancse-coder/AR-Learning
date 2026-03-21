@@ -20,7 +20,7 @@ const DashboardLayout = () => {
   const [inputText, setInputText] = useState("");
   const chatEndRef = useRef<HTMLDivElement>(null);
 
-  const isSidebarHiddenForThisRoute = 
+  const isSidebarHiddenForThisRoute =
     (location.pathname.startsWith("/dashboard/biology/") && location.pathname !== "/dashboard/biology") ||
     (location.pathname.startsWith("/dashboard/chemistry/") && location.pathname !== "/dashboard/chemistry");
   const isActive = (path: string) => location.pathname.startsWith(path) && path !== "/dashboard" || (path === "/dashboard" && (location.pathname === "/dashboard" || location.pathname === "/dashboard/home"));
@@ -196,7 +196,7 @@ const DashboardLayout = () => {
               <div className="flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 transition-colors">
                 <div className="flex items-center gap-2">
                   <span className="material-symbols-outlined text-[#006493] dark:text-blue-400 font-bold transition-colors">smart_toy</span>
-                  <h3 className="font-bold text-sm text-slate-900 dark:text-white transition-colors">LearnLLM</h3>
+                  <h3 className="font-bold text-sm text-slate-900 dark:text-white transition-colors">Ai tutor</h3>
                 </div>
                 <div className="flex gap-2">
                   <button onClick={() => dispatch(clearChat())} className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white transition-colors">Clear</button>
@@ -246,7 +246,7 @@ const DashboardLayout = () => {
                     onChange={(e) => setInputText(e.target.value)}
                     onKeyDown={(e) => { if (e.key === "Enter") handleSendMessage(); }}
                     disabled={loading}
-                    placeholder="Ask LearnLLM..."
+                    placeholder="Ask Ai tutor..."
                     className="w-full pl-4 pr-12 py-3 bg-slate-100 dark:bg-slate-800 rounded-xl text-sm font-medium border-none focus:ring-2 focus:ring-[#006493] dark:focus:ring-blue-500 text-slate-800 dark:text-white placeholder:text-slate-400 transition-all shadow-inner dark:shadow-none"
                   />
                   <button
