@@ -192,7 +192,7 @@ const DashboardLayout = () => {
 
           {/* Floating Chat Window */}
           {isChatOpen && (
-            <div className="fixed bottom-24 lg:bottom-10 right-4 lg:right-28 w-[calc(100vw-2rem)] sm:w-96 h-[500px] max-h-[70vh] bg-white dark:bg-[#1e293b] rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 flex flex-col z-50 overflow-hidden shrink-0 transition-colors duration-300">
+            <div className="ai-tutor-container fixed bottom-24 lg:bottom-10 right-4 lg:right-28 w-[calc(100vw-2rem)] sm:w-96 h-[500px] max-h-[70vh] bg-white dark:bg-[#1e293b] rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 flex flex-col z-50 overflow-hidden shrink-0 transition-colors duration-300">
               <div className="flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 transition-colors">
                 <div className="flex items-center gap-2">
                   <span className="material-symbols-outlined text-[#006493] dark:text-blue-400 font-bold transition-colors">smart_toy</span>
@@ -227,12 +227,12 @@ const DashboardLayout = () => {
                 )}
                 {loading && (
                   <div className="flex gap-3">
-                    <div className="w-8 h-8 bg-slate-800 dark:bg-slate-700 rounded-full shrink-0 flex items-center justify-center text-white text-[10px] font-black tracking-tighter shadow-sm transition-colors">AI</div>
-                    <div className="bg-white dark:bg-slate-800 p-4 rounded-2xl rounded-tl-none shadow-sm border border-slate-100 dark:border-slate-700 flex items-center gap-1.5 transition-colors">
-                      <div className="w-1.5 h-1.5 bg-slate-400 dark:bg-slate-500 rounded-full animate-bounce transition-colors"></div>
-                      <div className="w-1.5 h-1.5 bg-slate-400 dark:bg-slate-500 rounded-full animate-bounce transition-colors" style={{ animationDelay: "0.15s" }}></div>
-                      <div className="w-1.5 h-1.5 bg-slate-400 dark:bg-slate-500 rounded-full animate-bounce transition-colors" style={{ animationDelay: "0.3s" }}></div>
-                    </div>
+                     <div className="w-8 h-8 bg-slate-800 dark:bg-slate-700 rounded-full shrink-0 flex items-center justify-center text-white text-[10px] font-black tracking-tighter shadow-sm transition-colors">AI</div>
+                     <div className="bg-white dark:bg-slate-800 p-4 rounded-2xl rounded-tl-none shadow-sm border border-slate-100 dark:border-slate-700 flex items-center gap-1.5 transition-colors">
+                       <div className="w-1.5 h-1.5 bg-slate-400 dark:bg-slate-500 rounded-full animate-bounce transition-colors"></div>
+                       <div className="w-1.5 h-1.5 bg-slate-400 dark:bg-slate-500 rounded-full animate-bounce transition-colors" style={{ animationDelay: "0.15s" }}></div>
+                       <div className="w-1.5 h-1.5 bg-slate-400 dark:bg-slate-500 rounded-full animate-bounce transition-colors" style={{ animationDelay: "0.3s" }}></div>
+                     </div>
                   </div>
                 )}
                 <div ref={chatEndRef} />
@@ -264,7 +264,7 @@ const DashboardLayout = () => {
           {/* Quick Action AI Button */}
           <button
             onClick={() => setIsChatOpen(!isChatOpen)}
-            className="fixed bottom-20 lg:bottom-10 right-6 lg:right-10 size-14 sm:size-16 bg-[#006493] dark:bg-blue-600 text-white rounded-full flex items-center justify-center hover:scale-105 transition-transform z-50 group shadow-xl border-2 border-white/20 dark:border-white/10"
+            className="ai-tutor-container fixed bottom-20 lg:bottom-10 right-6 lg:right-10 size-14 sm:size-16 bg-[#006493] dark:bg-blue-600 text-white rounded-full flex items-center justify-center hover:scale-105 transition-transform z-50 group shadow-xl border-2 border-white/20 dark:border-white/10"
           >
             <span className="material-symbols-outlined text-[28px] sm:text-[32px] group-hover:animate-pulse">
               {isChatOpen ? "close" : "smart_toy"}
