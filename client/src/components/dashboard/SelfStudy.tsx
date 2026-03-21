@@ -206,46 +206,6 @@ const SelfStudy = () => {
 
         {/* Side Sidebar (Right Column) */}
         <div className="lg:col-span-4 space-y-8">
-          
-          {/* AI Study Assistant */}
-          <div className="relative overflow-hidden rounded-3xl bg-slate-800 dark:bg-slate-900 p-1 shadow-md">
-            <div className="absolute inset-0 bg-gradient-to-br from-[#006493]/40 dark:from-blue-500/30 to-transparent pointer-events-none"></div>
-            <div className="relative bg-slate-800 dark:bg-slate-900 rounded-[22px] p-6 text-white border border-slate-700/50">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center backdrop-blur-sm shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)]">
-                  <span className="material-symbols-outlined text-sky-400 text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>bolt</span>
-                </div>
-                <div>
-                  <h4 className="font-bold text-sm">Study Assistant</h4>
-                  <div className="flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]"></span>
-                    <span className="text-[10px] text-white/60 font-semibold tracking-wide uppercase">Active now</span>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="space-y-4 mb-6">
-                <div className="bg-white/10 backdrop-blur-sm rounded-2xl rounded-tl-none p-4 text-xs leading-relaxed max-w-[90%] border border-white/5 shadow-sm">
-                  Hello Alex! I see you have Chemistry due today. Need a quick summary of Redox reactions?
-                </div>
-                <div className="bg-[#006493]/50 dark:bg-blue-600/50 backdrop-blur-sm rounded-2xl rounded-tr-none p-4 text-xs leading-relaxed max-w-[90%] ml-auto text-right border border-[#006493]/30 dark:border-blue-500/30 shadow-sm">
-                  Yes, please! Focus on electron transfer rules.
-                </div>
-              </div>
-              
-              <div className="relative mt-2">
-                <input 
-                  className="w-full bg-slate-900/50 dark:bg-black/40 border border-white/10 rounded-xl py-3 px-4 pr-10 text-xs placeholder:text-white/40 focus:ring-1 focus:ring-sky-400/50 focus:border-sky-400/30 transition-all text-white shadow-inner" 
-                  placeholder="Ask anything..." 
-                  type="text" 
-                />
-                <button className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-sky-400 transition-colors pointer-events-auto cursor-pointer">
-                  <span className="material-symbols-outlined text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>send</span>
-                </button>
-              </div>
-            </div>
-          </div>
-
           {/* Productivity Section / Countdowns */}
           <div className="glass-card rounded-3xl p-6 shadow-sm">
             <h4 className="font-black text-sm mb-6 flex items-center gap-2 text-slate-900 dark:text-white uppercase tracking-tight">
