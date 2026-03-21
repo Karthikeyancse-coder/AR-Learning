@@ -219,7 +219,7 @@ const Profile = () => {
               </label>
             </div>
 
-            <button className="w-full text-left p-4 sm:p-5 flex items-center justify-between hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer group">
+            <button onClick={() => navigate("/dashboard/security")} className="w-full text-left p-4 sm:p-5 flex items-center justify-between hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer group">
               <div className="flex items-start gap-4">
                 <div className="p-2 bg-slate-100 dark:bg-slate-800 rounded-lg group-hover:bg-white dark:group-hover:bg-[#0f172a] transition-colors shrink-0">
                   <span className="material-symbols-outlined text-slate-600 dark:text-slate-400 transition-colors">lock</span>

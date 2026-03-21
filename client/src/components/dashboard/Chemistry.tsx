@@ -187,7 +187,7 @@ const CourseCard = ({ course }: { course: Course }) => {
     <div
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className="flex flex-col rounded-2xl overflow-hidden cursor-pointer dark:!bg-[#1E1E2F] dark:!border-slate-800"
+      className="flex flex-col rounded-2xl overflow-hidden cursor-pointer dark:!bg-none dark:!bg-[#1E1E2F] dark:!border-slate-800"
       style={{
         background:   c.cardBg,
         border:       `1.5px solid ${hovered ? c.hover : c.border}`,
@@ -288,7 +288,7 @@ const EnrollCard = () => {
     <div
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className="flex flex-col items-center justify-center p-8 text-center rounded-2xl cursor-pointer min-h-[380px] transition-all duration-300 dark:!bg-[#1E1E2F] dark:hover:!bg-[#252538] dark:!border-slate-600"
+      className="flex flex-col items-center justify-center p-8 text-center rounded-2xl cursor-pointer min-h-[380px] transition-all duration-300 dark:!bg-none dark:!bg-[#1E1E2F] dark:hover:!bg-[#252538] dark:!border-slate-600"
       style={{
         background:  hovered ? "linear-gradient(135deg,#f0f9ff 0%,#e8f7ff 100%)" : "#fafafa",
         border:      `2px dashed ${hovered ? "#7dd3fc" : "#e2e8f0"}`,

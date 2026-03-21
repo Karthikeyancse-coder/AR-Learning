@@ -154,21 +154,7 @@ const DashboardLayout = () => {
               <span className="text-lg sm:text-xl font-black text-[#006493] dark:text-blue-400 tracking-tight transition-colors">AR-Learn</span>
             </div>
 
-            <div className="hidden md:block flex-1 max-w-md ml-4 lg:ml-0">
-              <div className="relative group">
-                <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg transition-colors group-hover:text-slate-500">search</span>
-                <input
-                  className="w-full pl-10 pr-4 py-2 bg-slate-100 dark:bg-slate-800 border-none rounded-full text-sm focus:ring-2 focus:ring-[#006493] dark:focus:ring-blue-500 text-slate-900 dark:text-white placeholder:text-slate-500 transition-all font-medium"
-                  placeholder="Search courses, lessons..."
-                  type="text"
-                />
-              </div>
-            </div>
-
             <div className="flex items-center gap-1 sm:gap-2 lg:gap-3 ml-auto">
-              <button className="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors md:hidden">
-                <span className="material-symbols-outlined">search</span>
-              </button>
               <button onClick={() => setIsDarkMode(!isDarkMode)} className="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors">
                 <span className="material-symbols-outlined">{isDarkMode ? "light_mode" : "dark_mode"}</span>
               </button>

@@ -19,6 +19,7 @@ import Assessment from "./components/auth/chapters/chemistry/Assessment";
 import HumanAnatomy from "./components/dashboard/biology/human_anatomy/HumanAnatomy";
 import ChallengeFlow from "./components/dashboard/ChallengeFlow";
 import Billing from "./components/dashboard/Billing";
+import SecurityPrivacy from "./components/dashboard/SecurityPrivacy";
 
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import { AuthProvider } from "./components/auth/AuthContext";
@@ -86,6 +87,10 @@ const router = createBrowserRouter([
           {
             path: "billing",
             element: <Billing />,
+          },
+          {
+            path: "security",
+            element: <SecurityPrivacy />,
           },
         ],
       },
