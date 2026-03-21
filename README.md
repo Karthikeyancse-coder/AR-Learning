@@ -5,7 +5,7 @@
 - [Tech Stack](#️-tech-stack)
 - [Key Features](#-key-features)
 - [Installation & Setup](#️-installation--setup)
-- [Team Members](#-team-visionary)
+- [Freemium & Premium Tiers](#-freemium-vs-premium-tiers)
 - [Project Structure](#-project-structure)
 
 ## 📖 Overview
@@ -59,11 +59,19 @@ npm install
 npm run dev
 ```
 
-## 👥 Team Visionary
-- Sanket Shrestha
-- Prashant Adhikari
-- Smriti Basnet
-- Priyanka Khatri
+## 💎 Freemium vs Premium Tiers
+Learn.AR operates on a freemium model, providing accessible immersive education for everyone while offering advanced tools for serious learners.
+
+**Free Tier (Freemium)**
+- Access to standard 3D biology and chemistry models.
+- Core chapter assessments and basic interactive quizzes.
+- Basic AI Tutor support (limited monthly queries).
+
+**Premium Tier (Learn.AR Pro)**
+- **Unlimited AI Tutoring**: Interact with the Gemini-powered AI tutor without limits.
+- **Advanced AR Simulations**: Unrestricted access to complex, hyper-immersive labs.
+- **Predictive Analytics**: Exclusive access to AI-driven early-warning systems and performance predictions.
+- **Priority Access**: Be the first to try out newly released science modules.
 
 ## 📁 Project Structure
 ```text
