@@ -1,6 +1,28 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
+// Map raw technical errors to user-friendly messages
+const sanitizeError = (raw: any): string => {
+  const msg = (typeof raw === "string" ? raw : String(raw)).toLowerCase();
+  if (
+    msg.includes("buffering timed out") ||
+    msg.includes("econnrefused") ||
+    msg.includes("503") ||
+    msg.includes("database connection")
+  )
+    return "Server connection issue. Please try again.";
+  if (msg.includes("network") || msg.includes("failed to fetch"))
+    return "Network error. Please check your connection.";
+  if (msg.includes("invalid email or password"))
+    return "Invalid email or password.";
+  if (msg.includes("already exists"))
+    return "An account with this email already exists.";
+  // Pass through clean short messages from the server
+  if (typeof raw === "string" && raw.length < 120 && !raw.includes("at Object") && !raw.includes(".js:"))
+    return raw;
+  return "Something went wrong. Please try again.";
+};
+
 interface AuthState {
   user: any | null;
   token: string | null;
@@ -24,9 +46,8 @@ export const loginUser = createAsyncThunk(
       const res = await axios.post(`${APIURL}/api/students/login`, userData);
       return res.data;
     } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data?.message || error.message || "Login failed",
-      );
+      const msg = error.response?.data?.message || error.message || "Login failed";
+      return rejectWithValue(sanitizeError(msg));
     }
   },
 );
@@ -38,9 +59,8 @@ export const registerUser = createAsyncThunk(
       const res = await axios.post(`${APIURL}/api/students/register`, userData);
       return res.data;
     } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data?.message || error.message || "Registration failed",
-      );
+      const msg = error.response?.data?.message || error.message || "Registration failed";
+      return rejectWithValue(sanitizeError(msg));
     }
   },
 );
@@ -58,11 +78,8 @@ export const getMe = createAsyncThunk(
       const res = await axios.get(`${APIURL}/api/students/me`, config);
       return res.data;
     } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data?.message ||
-          error.message ||
-          "Failed to fetch user",
-      );
+      const msg = error.response?.data?.message || error.message || "Failed to fetch user";
+      return rejectWithValue(sanitizeError(msg));
     }
   },
 );
@@ -75,6 +92,9 @@ const authSlice = createSlice({
       state.user = null;
       state.token = null;
       localStorage.removeItem("token");
+    },
+    clearError: (state) => {
+      state.error = null;
     },
   },
   extraReducers(builder) {
@@ -131,5 +151,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { logout } = authSlice.actions;
+export const { logout, clearError } = authSlice.actions;
 export default authSlice.reducer;

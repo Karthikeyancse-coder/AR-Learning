@@ -2,6 +2,7 @@ import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { sendMessage, clearChat } from "../../redux/slices/geminiSlice";
+import { logout } from "../../redux/slices/authSlice";
 
 import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
@@ -17,6 +18,7 @@ const DashboardLayout = () => {
 
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
   const [inputText, setInputText] = useState("");
   const chatEndRef = useRef<HTMLDivElement>(null);
 
@@ -39,6 +41,7 @@ const DashboardLayout = () => {
   }, [isChatOpen, messages]);
 
   const handleLogout = () => {
+    dispatch(logout());
     navigate("/");
   };
 
@@ -88,7 +91,7 @@ const DashboardLayout = () => {
           <div className="mt-auto mb-6 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800 transition-colors">
             <p className="text-sm font-bold mb-1 text-slate-900 dark:text-white">Upgrade to Premium</p>
             <p className="text-xs text-slate-500 dark:text-slate-400 mb-4 leading-relaxed">Unlock advanced AR modules and AI tutoring capabilities.</p>
-            <button className="w-full py-2.5 bg-[#006493] dark:bg-blue-600 text-white text-xs font-bold rounded-lg hover:opacity-90 transition-opacity shadow-md">
+            <button onClick={() => navigate("/dashboard/billing")} className="w-full py-2.5 bg-[#006493] dark:bg-blue-600 text-white text-xs font-bold rounded-lg hover:opacity-90 transition-opacity shadow-md">
               Go Pro
             </button>
           </div>
@@ -169,10 +172,47 @@ const DashboardLayout = () => {
               <button onClick={() => setIsDarkMode(!isDarkMode)} className="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors">
                 <span className="material-symbols-outlined">{isDarkMode ? "light_mode" : "dark_mode"}</span>
               </button>
-              <button className="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors relative">
-                <span className="material-symbols-outlined">notifications</span>
-                <span className="absolute top-[4px] right-[4px] w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white dark:border-[#1e293b] transition-colors"></span>
-              </button>
+              <div className="relative">
+                <button
+                  onClick={() => setShowNotifications(!showNotifications)}
+                  className="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors relative"
+                >
+                  <span className="material-symbols-outlined">notifications</span>
+                  <span className="absolute top-[4px] right-[4px] w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white dark:border-[#1e293b] transition-colors"></span>
+                </button>
+
+                {/* Notifications Dropdown */}
+                {showNotifications && (
+                  <div className="absolute right-0 mt-2 w-80 bg-white dark:bg-[#1e293b] rounded-2xl shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-slate-800 overflow-hidden z-50 animate-in fade-in slide-in-from-top-4 duration-200">
+                    <div className="flex items-center justify-between px-4 py-3 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-[#0f172a]/50">
+                      <span className="font-bold text-sm text-slate-900 dark:text-white">Notifications</span>
+                      <span className="text-[10px] font-bold bg-[#006493] text-white px-2 py-0.5 rounded-md">1 New</span>
+                    </div>
+                    <div className="divide-y divide-slate-50 dark:divide-slate-800/50">
+                      <button
+                        onClick={() => {
+                          setShowNotifications(false);
+                          navigate("/dashboard/self-study");
+                        }}
+                        className="w-full text-left p-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors flex gap-3 group"
+                      >
+                        <div className="w-10 h-10 rounded-xl bg-orange-50 dark:bg-orange-500/10 flex items-center justify-center shrink-0">
+                          <span className="material-symbols-outlined text-orange-500">quiz</span>
+                        </div>
+                        <div className="flex-1">
+                          <p className="text-sm font-bold text-slate-900 dark:text-white mb-0.5 group-hover:text-[#006493] dark:group-hover:text-blue-400 transition-colors">Friday Challenge Available!</p>
+                          <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">Your weekly Readiness Quiz is unlocked. Test your knowledge now.</p>
+                          <p className="text-[10px] text-slate-400 mt-2 font-medium">Just now</p>
+                        </div>
+                        <div className="w-2 h-2 bg-blue-500 rounded-full mt-1.5 shrink-0"></div>
+                      </button>
+                    </div>
+                    <div className="p-3 text-center border-t border-slate-100 dark:border-slate-800">
+                      <button className="text-xs font-bold text-[#006493] dark:text-blue-400 hover:text-[#004e75] dark:hover:text-blue-300">Mark all as read</button>
+                    </div>
+                  </div>
+                )}
+              </div>
               <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full overflow-hidden border-2 border-slate-200 dark:border-slate-700 lg:hidden ml-1 sm:ml-2 transition-colors">
                 {user?.name ? (
                   <img alt="Profile" className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqVv1P6vCCzh6X0oZTjYzxBmailQ2lO4S6lhbfgPMftb1DHPVYW41Caj2fU-uABGM9OMy-pFctkVQMAnVzvEXe6gu0CxUPoCCzBTdQyMQpuDUZEc40ftMkLZ5WBlz-WpXNUg_O2HKgDnoGhtDgWWE7lHzhZDuhtNmn7ADbeMTacQ2LiknsgtwtcKXRWP22rFUl-XCf3wIfz8obGvM6EWIxdmb8QDnUcftNvEZ_A2LCuSJRcdhxXyu_bhjZHfKfiD9xn5tOuru_KA" />

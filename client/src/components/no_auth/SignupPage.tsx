@@ -10,6 +10,10 @@ const SignupPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [formError, setFormError] = useState("");
+  const [ssoMessage, setSsoMessage] = useState("");
   const [isDarkMode, setIsDarkMode] = useState(() => {
     return localStorage.getItem("theme") === "dark";
   });
@@ -28,11 +32,32 @@ const SignupPage = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (password !== confirmPassword) {
-      alert("Passwords do not match");
+    setFormError("");
+
+    // Frontend validation
+    if (!name.trim() || name.trim().length < 2) {
+      setFormError("Please enter your full name (at least 2 characters).");
       return;
     }
-    dispatch(registerUser({ name, email, password }));
+    if (!email.trim()) {
+      setFormError("Please enter a valid email address.");
+      return;
+    }
+    if (password.length < 6) {
+      setFormError("Password must be at least 6 characters.");
+      return;
+    }
+    if (password !== confirmPassword) {
+      setFormError("Passwords do not match. Please check and try again.");
+      return;
+    }
+
+    dispatch(registerUser({ name: name.trim(), email: email.toLowerCase().trim(), password }));
+  };
+
+  const handleSso = (provider: string) => {
+    setSsoMessage(`${provider} sign-in is coming soon! Please use email signup for now.`);
+    setTimeout(() => setSsoMessage(""), 4000);
   };
 
   const toggleDarkMode = () => {
@@ -168,13 +193,16 @@ const SignupPage = () => {
                         key
                       </span>
                       <input
-                        className="w-full bg-slate-100/80 dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700/60 rounded-xl h-12 pl-12 pr-4 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:bg-white dark:focus:bg-slate-800 input-glow transition-all text-xs"
+                        className="w-full bg-slate-100/80 dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700/60 rounded-xl h-12 pl-12 pr-10 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:bg-white dark:focus:bg-slate-800 input-glow transition-all text-xs"
                         placeholder="••••••••"
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         required
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                       />
+                      <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500 hover:text-primary dark:hover:text-primary transition-colors">
+                        <span className="material-symbols-outlined text-[18px]">{showPassword ? "visibility_off" : "visibility"}</span>
+                      </button>
                     </div>
                   </div>
                   <div className="flex flex-col gap-1.5">
@@ -186,13 +214,16 @@ const SignupPage = () => {
                         verified_user
                       </span>
                       <input
-                        className="w-full bg-slate-100/80 dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700/60 rounded-xl h-12 pl-12 pr-4 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:bg-white dark:focus:bg-slate-800 input-glow transition-all text-xs"
+                        className="w-full bg-slate-100/80 dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700/60 rounded-xl h-12 pl-12 pr-10 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:bg-white dark:focus:bg-slate-800 input-glow transition-all text-xs"
                         placeholder="••••••••"
-                        type="password"
+                        type={showConfirmPassword ? "text" : "password"}
                         required
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                       />
+                      <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500 hover:text-primary dark:hover:text-primary transition-colors">
+                        <span className="material-symbols-outlined text-[18px]">{showConfirmPassword ? "visibility_off" : "visibility"}</span>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -212,10 +243,12 @@ const SignupPage = () => {
                   </label>
                 </div>
 
-                {error && (
-                  <p className="text-red-500 text-xs text-center font-medium mt-1">
-                    {error}
-                  </p>
+                {/* Consolidated error: backend errors take priority, then form errors */}
+                {(error || formError) && (
+                  <div className="flex items-start gap-2.5 px-4 py-3 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 rounded-xl mt-1">
+                    <span className="material-symbols-outlined text-red-500 text-[18px] shrink-0 mt-0.5">error</span>
+                    <p className="text-red-600 dark:text-red-400 text-xs font-medium leading-snug">{error || formError}</p>
+                  </div>
                 )}
 
                 <button
@@ -223,10 +256,11 @@ const SignupPage = () => {
                   disabled={loading}
                   className="mt-2 w-full h-12 bg-primary hover:bg-primary/95 text-white text-sm font-bold rounded-xl shadow-lg shadow-primary/20 transition-all flex items-center justify-center gap-2 group disabled:opacity-70 disabled:cursor-not-allowed"
                 >
-                  <span>{loading ? "Creating Identity..." : "Create Account"}</span>
-                  {!loading && <span className="material-symbols-outlined text-lg group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform">
-                    rocket_launch
-                  </span>}
+                  {loading ? (
+                    <><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span><span>Creating Account...</span></>
+                  ) : (
+                    <><span>Create Account</span><span className="material-symbols-outlined text-lg group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform">rocket_launch</span></>
+                  )}
                 </button>
               </form>
 
@@ -234,8 +268,14 @@ const SignupPage = () => {
                 <p className="text-center text-slate-400 dark:text-slate-500 text-[9px] mb-4 uppercase tracking-widest font-bold">
                   Or register with
                 </p>
+                {ssoMessage && (
+                  <p className="text-center text-amber-600 dark:text-amber-400 text-xs font-medium mb-3 px-2">{ssoMessage}</p>
+                )}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <button className="flex items-center justify-center gap-2.5 h-11 bg-white dark:bg-slate-800 border border-slate-200/60 dark:border-slate-700/60 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors text-slate-700 dark:text-slate-300 shadow-sm">
+                  <button
+                    type="button"
+                    onClick={() => handleSso("Google")}
+                    className="flex items-center justify-center gap-2.5 h-11 bg-white dark:bg-slate-800 border border-slate-200/60 dark:border-slate-700/60 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors text-slate-700 dark:text-slate-300 shadow-sm">
                     <svg className="size-4" viewBox="0 0 24 24">
                       <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
                       <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
@@ -244,7 +284,10 @@ const SignupPage = () => {
                     </svg>
                     <span className="text-xs font-medium">Google</span>
                   </button>
-                  <button className="flex items-center justify-center gap-2.5 h-11 bg-white dark:bg-slate-800 border border-slate-200/60 dark:border-slate-700/60 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors text-slate-700 dark:text-slate-300 shadow-sm">
+                  <button
+                    type="button"
+                    onClick={() => handleSso("GitHub")}
+                    className="flex items-center justify-center gap-2.5 h-11 bg-white dark:bg-slate-800 border border-slate-200/60 dark:border-slate-700/60 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors text-slate-700 dark:text-slate-300 shadow-sm">
                     <svg className="size-4" viewBox="0 0 24 24">
                       <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482C19.138 20.161 22 16.416 22 12c0-5.523-4.477-10-10-10z" fill={isDarkMode ? "#ffffff" : "#24292e"}></path>
                     </svg>

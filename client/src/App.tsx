@@ -18,6 +18,7 @@ import InorganicReaction from "./components/auth/chapters/chemistry/inorganic/In
 import Assessment from "./components/auth/chapters/chemistry/Assessment";
 import HumanAnatomy from "./components/dashboard/biology/human_anatomy/HumanAnatomy";
 import ChallengeFlow from "./components/dashboard/ChallengeFlow";
+import Billing from "./components/dashboard/Billing";
 
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import { AuthProvider } from "./components/auth/AuthContext";
@@ -81,6 +82,10 @@ const router = createBrowserRouter([
           {
             path: "profile",
             element: <Profile />,
+          },
+          {
+            path: "billing",
+            element: <Billing />,
           },
         ],
       },

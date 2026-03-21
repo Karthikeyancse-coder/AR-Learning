@@ -8,6 +8,8 @@ import { useTypingEffect } from "./useTypingEffect";
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [ssoMessage, setSsoMessage] = useState("");
   const [isDarkMode, setIsDarkMode] = useState(() => {
     return localStorage.getItem("theme") === "dark";
   });
@@ -26,7 +28,13 @@ const LoginPage = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(loginUser({ email, password }));
+    if (!email.trim() || !password) return;
+    dispatch(loginUser({ email: email.toLowerCase().trim(), password }));
+  };
+
+  const handleSso = (provider: string) => {
+    setSsoMessage(`${provider} sign-in is coming soon! Please use email login for now.`);
+    setTimeout(() => setSsoMessage(""), 4000);
   };
 
   const toggleDarkMode = () => {
@@ -177,13 +185,16 @@ const LoginPage = () => {
                       lock
                     </span>
                     <input
-                      className="w-full rounded-xl h-14 md:h-12 md:text-sm pl-12 pr-4 focus:outline-none input-glow transition-all bg-[#f1f5f9] dark:bg-[#1a1631]/40 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-white/20"
+                      className="w-full rounded-xl h-14 md:h-12 md:text-sm pl-12 pr-10 focus:outline-none input-glow transition-all bg-[#f1f5f9] dark:bg-[#1a1631]/40 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-white/20"
                       placeholder="••••••••••••"
-                      type="password"
+                      type={showPassword ? "text" : "password"}
                       required
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                     />
+                    <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 dark:text-white/30 hover:text-primary dark:hover:text-primary transition-colors">
+                      <span className="material-symbols-outlined text-[20px]">{showPassword ? "visibility_off" : "visibility"}</span>
+                    </button>
                   </div>
                 </div>
 
@@ -199,9 +210,10 @@ const LoginPage = () => {
                 </div>
 
                 {error && (
-                  <p className="text-red-500 text-xs text-center font-medium mt-1">
-                    {error}
-                  </p>
+                  <div className="flex items-start gap-2.5 px-4 py-3 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 rounded-xl mt-1">
+                    <span className="material-symbols-outlined text-red-500 text-[18px] shrink-0 mt-0.5">error</span>
+                    <p className="text-red-600 dark:text-red-400 text-xs font-medium leading-snug">{error}</p>
+                  </div>
                 )}
 
                 <button
@@ -209,8 +221,11 @@ const LoginPage = () => {
                   disabled={loading}
                   className="mt-4 md:mt-2 w-full h-14 md:h-12 bg-primary hover:bg-primary/90 text-white font-bold md:text-sm rounded-xl shadow-lg shadow-primary/20 transition-all flex items-center justify-center gap-2 group disabled:opacity-70 disabled:cursor-not-allowed"
                 >
-                  <span>{loading ? "Initializing..." : "Execute Connection"}</span>
-                  {!loading && <span className="material-symbols-outlined text-xl md:text-lg group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform">bolt</span>}
+                  {loading ? (
+                    <><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span><span>Connecting...</span></>
+                  ) : (
+                    <><span>Execute Connection</span><span className="material-symbols-outlined text-xl md:text-lg group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform">bolt</span></>
+                  )}
                 </button>
 
                 <button
@@ -227,8 +242,14 @@ const LoginPage = () => {
                 <p className="text-center text-[10px] md:text-[9px] mb-6 md:mb-4 uppercase tracking-widest font-bold text-slate-400 dark:text-white/30">
                   Or sync with
                 </p>
+                {ssoMessage && (
+                  <p className="text-center text-amber-600 dark:text-amber-400 text-xs font-medium mb-3 px-2">{ssoMessage}</p>
+                )}
                 <div className="grid grid-cols-2 gap-4 md:gap-3">
-                  <button className="flex items-center justify-center gap-3 md:gap-2.5 h-12 md:h-11 rounded-xl transition-colors shadow-sm dark:shadow-none bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-white/10 text-slate-700 dark:text-white">
+                  <button
+                    type="button"
+                    onClick={() => handleSso('Google')}
+                    className="flex items-center justify-center gap-3 md:gap-2.5 h-12 md:h-11 rounded-xl transition-colors shadow-sm dark:shadow-none bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-white/10 text-slate-700 dark:text-white">
                     <svg className="size-5" viewBox="0 0 24 24">
                       {isDarkMode ? (
                         <>
@@ -248,7 +269,10 @@ const LoginPage = () => {
                     </svg>
                     <span className="text-sm md:text-xs font-medium">Google Core</span>
                   </button>
-                  <button className="flex items-center justify-center gap-3 md:gap-2.5 h-12 md:h-11 rounded-xl transition-colors shadow-sm dark:shadow-none bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-white/10 text-slate-700 dark:text-white">
+                  <button
+                    type="button"
+                    onClick={() => handleSso('GitHub')}
+                    className="flex items-center justify-center gap-3 md:gap-2.5 h-12 md:h-11 rounded-xl transition-colors shadow-sm dark:shadow-none bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-white/10 text-slate-700 dark:text-white">
                     <svg className="size-5 md:size-4" viewBox="0 0 24 24">
                       <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482C19.138 20.161 22 16.416 22 12c0-5.523-4.477-10-10-10z" fill={isDarkMode ? "currentColor" : "#24292e"}></path>
                     </svg>
