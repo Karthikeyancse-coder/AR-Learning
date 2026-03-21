@@ -1,74 +1,80 @@
-# AR-Learn: Augmented Reality Learning Platform
+# 🚀 Redefining Education through Immersive Augmented Reality & AI
 
-AR-Learn is a state-of-the-art, hyper-immersive educational platform that bridges the gap between theoretical science and practical application. By leveraging Augmented Reality (AR) and Artificial Intelligence (AI), AR-Learn provides dynamic, interactive, and holistic learning experiences for students exploring disciplines like Chemistry, Biology, and Physics.
+## 📜 Table of Contents
+- [Overview](#-overview)
+- [Tech Stack](#️-tech-stack)
+- [Key Features](#-key-features)
+- [Installation & Setup](#️-installation--setup)
+- [Team Members](#-team-visionary)
+- [Project Structure](#-project-structure)
 
-## How It Works
+## 📖 Overview
+Learn.AR is an innovative learning platform designed to bridge the gap between abstract concepts and real-world understanding. By leveraging the power of Augmented Reality (AR) and Generative AI, we provide students with an interactive, hands-on experience in subjects like Biology and Chemistry.
 
-AR-Learn combines a robust React frontend with a scalable Node/Python backend to deliver seamless educational content. Here is a breakdown of how the platform operates:
+Imagine visualizing a beating human heart in 3D right on your desk or witnessing complex chemical reactions in a safe, virtual environment—that's the power of Learn.AR.
 
-1. **User Authentication & Profiles**
-   - Students register and log into their personalized AR-Learn accounts.
-   - The platform tracks their academic streaks, completed courses, and attendance rates over time.
-   - Users can manage robust security features, including Two-Factor Authentication (2FA) and active session management.
+## 🛠️ Tech Stack
+**Frontend**
+- **React 19**: Modern UI library for building dynamic interfaces.
+- **Vite**: Ultra-fast build tool for modern web applications.
+- **Tailwind CSS 4**: A utility-first CSS framework for rapid and high-performance styling.
+- **Three.js & AR.js**: Powering the immersive augmented reality experiences.
+- **Redux Toolkit**: State management for application-wide data flow.
+- **React Router Dom**: Seamless navigation within the Single Page Application.
 
-2. **Course Enrollment & Discovery**
-   - Through the dashboard, users can browse and enroll in various immersive science modules (e.g., *Quantum Biology*, *Molecular Bonds*, *Human Anatomy*).
-   - Each course uses interactive frontend visualizations to simulate AR/haptic interactions, allowing users to "touch" and manipulate molecular structures or anatomic models directly from their devices.
+**Backend & AI**
+- **Node.js & Express**: High-performance backend runtime and framework.
+- **MongoDB & Mongoose**: Flexible NoSQL database for managing users and learning data.
+- **Google Gemini AI**: Intelligent AI integration for personalized learning and querying.
+- **Cloudinary**: Cloud storage for project assets and media.
+- **JWT & Bcrypt**: Secure authentication and password hashing.
 
-3. **Interactive Assessments & Real-Time Challenges**
-   - Courses include progressive challenges (e.g., balancing inorganic chemistry equations, identifying cellular mechanics).
-   - As users progress, the platform uses gamified elements like XP, badges, and streaks to encourage continuous learning.
+## ✨ Key Features
+- **AR Visualization**: Explore 3D biological and chemical models using your device's camera.
+- **AI Tutoring**: Ask Gemini-powered AI questions about any topic for instant, accurate explanations.
+- **Interactive Labs**: Engage with virtual chemistry experiments and reactions.
+- **Personalized Dashboard**: Track your learning progress through specific chapters and assessments.
+- **Integrated Assessments**: Test your knowledge with chapter-wise quizzes and feedback.
 
-4. **AI-Powered Performance Prediction**
-   - The backend features an intelligent Machine Learning service (`predict.py`) that analyzes student performance metrics (such as study time, past failures, absences, and previous grades).
-   - Using Random Forest and Decision Tree models, AR-Learn predicts future academic outcomes and automatically provides personalized recommendations and AI-tutoring interventions to help users succeed before they fall behind.
+## ⚙️ Installation & Setup
+Clone the repository:
 
-5. **Self-Study & Revision Hub**
-   - A dedicated self-study section allows students to review past materials, interact with AI tutors, and revisit challenging interactive labs at their own pace.
+```bash
+git clone https://github.com/stha-sanket/TechSprint_visionary.git
+cd TechSprint_visionary
+```
 
-## Key Features
+**Server Setup:**
+```bash
+cd server
+npm install
+# Create a .env file and add your MongoDB_URI, GEMINI_API_KEY, and PORT
+npm start
+```
 
-- **Hyper-Immersive AR Visuals**: Engaging UI elements mimicking holographic and real-touch learning environments.
-- **Dynamic Dashboard**: Centralized hub tracing academic progress, module engagement, and recent platform activity.
-- **Predictive Analytics**: Early-warning AI predicting final outcomes based on continuous learning patterns.
-- **Comprehensive Privacy Controls**: Granular user privacy settings for profile visibility, academic recommendations, and data retention.
-- **Responsive & Accessible Design**: Beautifully styled with Tailwind CSS, supporting full dark/light mode optimization.
+**Client Setup:**
+```bash
+cd ../client
+npm install
+npm run dev
+```
 
-## Tech Stack Overview
+## 👥 Team Visionary
+- Sanket Shrestha
+- Prashant Adhikari
+- Smriti Basnet
+- Priyanka Khatri
 
-- **Frontend**: React, Vite, TypeScript, TailwindCSS, Redux Toolkit
-- **Backend / API**: Node.js, Express (Routing & Authentication)
-- **Machine Learning Layer**: Python, Scikit-Learn (`joblib` / `pickle`), Random Forest Classifier
-
-## Getting Started
-
-### Prerequisites
-- Node.js (v16 or higher)
-- Python 3.8+ (for AI prediction features)
-- npm or yarn
-
-### Installation & Setup
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/Karthikeyancse-coder/AR-Learning.git
-   cd AR-Learning
-   ```
-
-2. **Frontend Setup**
-   ```bash
-   cd client
-   npm install
-   npm run dev
-   ```
-
-3. **Backend Setup** (Optional for local API testing)
-   ```bash
-   cd server
-   npm install
-   npm run dev
-   ```
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+## 📁 Project Structure
+```text
+├── client                # React frontend with Vite & Tailwind
+│   ├── src
+│   │   ├── components    # UI Components (Auth, Dashboard, etc.)
+│   │   ├── redux         # State management
+│   │   └── assets        # Images and styles
+├── server                # Node.js & Express backend
+│   ├── controllers       # AI and Business logic
+│   ├── models            # MongoDB schemas
+│   └── routes            # API endpoints
+└── README.md             # Project documentation
+```
