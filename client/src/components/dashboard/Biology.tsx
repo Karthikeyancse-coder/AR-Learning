@@ -131,14 +131,25 @@ const Biology = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="bg-[#F8FAFC] dark:bg-transparent text-[#0F172A] dark:text-white min-h-screen selection:bg-[#00D4FF]/20 font-sans p-6 md:p-12 -m-6 lg:-m-8 rounded-tr-3xl rounded-tl-3xl animate-in fade-in slide-in-from-bottom-4 duration-500">
+    <div
+      className="bg-[#F8FAFC] dark:bg-transparent text-[#0F172A] dark:text-white min-h-screen selection:bg-[#00D4FF]/20 font-sans p-6 md:p-12 -m-6 lg:-m-8 rounded-tr-3xl rounded-tl-3xl animate-in fade-in slide-in-from-bottom-4 duration-500"
+      // ── Context attributes: picked up by usePageContext hook ──
+      data-context-page="Biology – AR Library"
+      data-context-section="Biology Topics"
+    >
       <div className="max-w-6xl mx-auto">
         <header className="mb-14">
           <div className="flex flex-col gap-3">
-            <h1 className="text-4xl md:text-5xl font-extrabold text-[#0F172A] dark:text-white tracking-tight">
+            <h1
+              className="text-4xl md:text-5xl font-extrabold text-[#0F172A] dark:text-white tracking-tight"
+              data-context-heading
+            >
               Biology
             </h1>
-            <p className="text-lg text-[#64748B] dark:text-[#B0B3C0] font-medium">
+            <p
+              className="text-lg text-[#64748B] dark:text-[#B0B3C0] font-medium"
+              data-context-text
+            >
               Explore foundational and advanced topics in life sciences
             </p>
           </div>

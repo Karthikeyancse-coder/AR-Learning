@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { sendMessage, clearChat } from "../../redux/slices/geminiSlice";
 import { logout } from "../../redux/slices/authSlice";
+import { usePageContext } from "../../hooks/usePageContext";
 
 import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
@@ -15,6 +16,9 @@ const DashboardLayout = () => {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
   const { messages, loading } = useAppSelector((state) => state.gemini);
+
+  // Capture what the student is currently viewing so Gemini can answer in context
+  const screenContext = usePageContext();
 
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -29,7 +33,8 @@ const DashboardLayout = () => {
 
   const handleSendMessage = async () => {
     if (!inputText.trim()) return;
-    await dispatch(sendMessage({ message: inputText }));
+    // Pass screenContext so the AI tutor answers based on what the student sees
+    await dispatch(sendMessage({ message: inputText, screenContext }));
     setInputText("");
     setTimeout(() => chatEndRef.current?.scrollIntoView({ behavior: "smooth" }), 100);
   };

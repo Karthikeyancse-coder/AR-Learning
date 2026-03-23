@@ -104,15 +104,28 @@ const Chemistry = () => {
   }, [dispatch]);
 
   return (
-    <div className="animate-in fade-in slide-in-from-bottom-4 duration-500" style={{ fontFamily: "Inter, sans-serif" }}>
+    <div
+      className="animate-in fade-in slide-in-from-bottom-4 duration-500"
+      style={{ fontFamily: "Inter, sans-serif" }}
+      // ── Context attributes: picked up by usePageContext hook ──
+      data-context-page="My Courses – Chemistry"
+      data-context-section="Chemistry Course Overview"
+    >
 
       {/* ── Header ───────────────────────────────────────── */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
         <div>
-          <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white uppercase" style={{ letterSpacing: "-0.025em" }}>
+          <h1
+            className="text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white uppercase"
+            style={{ letterSpacing: "-0.025em" }}
+            data-context-heading
+          >
             My <span className="font-normal text-slate-400">COURSES</span>
           </h1>
-          <p className="text-slate-500 dark:text-slate-400 mt-3 max-w-xl text-base">
+          <p
+            className="text-slate-500 dark:text-slate-400 mt-3 max-w-xl text-base"
+            data-context-text
+          >
             Resume your hyper-immersive learning journey.
           </p>
         </div>
