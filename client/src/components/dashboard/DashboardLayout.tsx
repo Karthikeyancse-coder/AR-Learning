@@ -86,9 +86,9 @@ const DashboardLayout = () => {
               <span className="material-symbols-outlined">assignment</span>
               <span className="text-sm">Assignments</span>
             </button>
-            <button onClick={() => navigate("/dashboard/profile")} className={`flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-all duration-200 ${isActive("/dashboard/profile") ? "bg-blue-50 dark:bg-blue-500/10 text-[#006493] dark:text-blue-400 shadow-sm" : "text-slate-600 dark:text-slate-400 hover:text-[#006493] dark:hover:text-blue-300 hover:bg-slate-50 dark:hover:bg-slate-800"}`}>
-              <span className="material-symbols-outlined">settings</span>
-              <span className="text-sm">Settings</span>
+            <button onClick={() => navigate("/dashboard/todo")} className={`flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-all duration-200 ${isActive("/dashboard/todo") ? "bg-blue-50 dark:bg-blue-500/10 text-[#006493] dark:text-blue-400 shadow-sm" : "text-slate-600 dark:text-slate-400 hover:text-[#006493] dark:hover:text-blue-300 hover:bg-slate-50 dark:hover:bg-slate-800"}`}>
+              <span className="material-symbols-outlined">playlist_add_check</span>
+              <span className="text-sm">To-Do List</span>
             </button>
           </nav>
 
@@ -103,7 +103,7 @@ const DashboardLayout = () => {
 
           {/* Footer Profile */}
           <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between transition-colors">
-            <div className="flex items-center gap-3 truncate pr-2">
+            <div onClick={() => navigate("/dashboard/profile")} className="flex items-center gap-3 truncate pr-2 cursor-pointer hover:opacity-80 transition-opacity">
               {user?.name ? (
                 <img alt="Student profile avatar" className="w-10 h-10 rounded-full object-cover shrink-0 border border-slate-200 dark:border-slate-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqVv1P6vCCzh6X0oZTjYzxBmailQ2lO4S6lhbfgPMftb1DHPVYW41Caj2fU-uABGM9OMy-pFctkVQMAnVzvEXe6gu0CxUPoCCzBTdQyMQpuDUZEc40ftMkLZ5WBlz-WpXNUg_O2HKgDnoGhtDgWWE7lHzhZDuhtNmn7ADbeMTacQ2LiknsgtwtcKXRWP22rFUl-XCf3wIfz8obGvM6EWIxdmb8QDnUcftNvEZ_A2LCuSJRcdhxXyu_bhjZHfKfiD9xn5tOuru_KA" />
               ) : (
@@ -139,11 +139,11 @@ const DashboardLayout = () => {
             </button>
             <button onClick={() => navigate("/dashboard/self-study")} className={`flex flex-col items-center gap-1 ${isActive("/dashboard/self-study") ? "text-[#006493] dark:text-blue-400" : "text-slate-400 hover:text-[#006493] dark:hover:text-blue-300"}`}>
               <span className={`material-symbols-outlined ${isActive("/dashboard/self-study") ? "fill-icon" : ""}`}>assignment</span>
-              <span className="text-[10px] font-bold">Tasks</span>
+              <span className="text-[10px] font-bold">Assignments</span>
             </button>
-            <button onClick={() => navigate("/dashboard/profile")} className={`flex flex-col items-center gap-1 ${isActive("/dashboard/profile") ? "text-[#006493] dark:text-blue-400" : "text-slate-400 hover:text-[#006493] dark:hover:text-blue-300"}`}>
-              <span className={`material-symbols-outlined ${isActive("/dashboard/profile") ? "fill-icon" : ""}`}>settings</span>
-              <span className="text-[10px] font-bold">Settings</span>
+            <button onClick={() => navigate("/dashboard/todo")} className={`flex flex-col items-center gap-1 ${isActive("/dashboard/todo") ? "text-[#006493] dark:text-blue-400" : "text-slate-400 hover:text-[#006493] dark:hover:text-blue-300"}`}>
+              <span className={`material-symbols-outlined ${isActive("/dashboard/todo") ? "fill-icon" : ""}`}>playlist_add_check</span>
+              <span className="text-[10px] font-bold">To-Do List</span>
             </button>
           </nav>
         )}
@@ -204,7 +204,7 @@ const DashboardLayout = () => {
                   </div>
                 )}
               </div>
-              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full overflow-hidden border-2 border-slate-200 dark:border-slate-700 lg:hidden ml-1 sm:ml-2 transition-colors">
+              <div onClick={() => navigate("/dashboard/profile")} className="w-8 h-8 sm:w-9 sm:h-9 rounded-full overflow-hidden border-2 border-slate-200 dark:border-slate-700 lg:hidden ml-1 sm:ml-2 transition-colors cursor-pointer hover:opacity-80">
                 {user?.name ? (
                   <img alt="Profile" className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqVv1P6vCCzh6X0oZTjYzxBmailQ2lO4S6lhbfgPMftb1DHPVYW41Caj2fU-uABGM9OMy-pFctkVQMAnVzvEXe6gu0CxUPoCCzBTdQyMQpuDUZEc40ftMkLZ5WBlz-WpXNUg_O2HKgDnoGhtDgWWE7lHzhZDuhtNmn7ADbeMTacQ2LiknsgtwtcKXRWP22rFUl-XCf3wIfz8obGvM6EWIxdmb8QDnUcftNvEZ_A2LCuSJRcdhxXyu_bhjZHfKfiD9xn5tOuru_KA" />
                 ) : (

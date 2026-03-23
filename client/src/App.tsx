@@ -13,6 +13,7 @@ import Home from "./components/dashboard/Home";
 import Chemistry from "./components/dashboard/Chemistry";
 import Biology from "./components/dashboard/Biology";
 import SelfStudy from "./components/dashboard/SelfStudy";
+import TodoList from "./components/dashboard/TodoList";
 import Profile from "./components/dashboard/Profile";
 import InorganicReaction from "./components/auth/chapters/chemistry/inorganic/InorganicReaction";
 import Assessment from "./components/auth/chapters/chemistry/Assessment";
@@ -75,6 +76,10 @@ const router = createBrowserRouter([
           {
             path: "self-study",
             element: <SelfStudy />,
+          },
+          {
+            path: "todo",
+            element: <TodoList />,
           },
           {
             path: "challenge",
