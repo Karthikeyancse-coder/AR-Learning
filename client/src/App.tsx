@@ -94,8 +94,6 @@ const router = createBrowserRouter([
         children: [
           { index: true, element: <Navigate to="/teacher/home" replace /> },
           { path: "home", element: <TeacherHome /> },
-          { path: "quizzes", element: <PublishedTasks /> },
-          { path: "assignments", element: <PublishedTasks /> },
           { path: "courses", element: <PublishedTasks /> },
           { path: "quiz-builder", element: <QuizBuilder /> },
           { path: "assignment-builder", element: <AssignmentBuilder /> },
@@ -105,7 +103,6 @@ const router = createBrowserRouter([
           { path: "students", element: <StudentsPage /> },
           { path: "analytics", element: <Analytics /> },
           { path: "insights", element: <StudentInsights /> },
-          { path: "notifications", element: <TeacherHome /> },
         ],
       },
     ],
