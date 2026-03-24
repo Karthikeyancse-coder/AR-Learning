@@ -63,7 +63,7 @@ const LoginPage = () => {
 
   return (
     <div className={`flex flex-col min-h-screen w-full overflow-x-hidden font-display ${isDarkMode ? "dark" : ""}`}>
-      <div className="bg-[#f8fafc] dark:bg-[#131022] text-slate-900 dark:text-white mesh-gradient flex flex-col min-h-screen w-full transition-colors duration-300">
+      <div className="bg-[#f8fafc] dark:bg-slate-900 text-slate-900 dark:text-white mesh-gradient flex flex-col min-h-screen w-full transition-colors duration-300">
         <header className="flex items-center justify-between px-4 lg:px-12 h-16 lg:h-20 shrink-0 sticky top-0 z-50 whitespace-nowrap">
           <div className="flex items-center gap-3 px-2 text-slate-900 dark:text-white transition-colors">
             {/* <div className="bg-[#0da6f2] text-white p-1 rounded-lg flex items-center justify-center"> */}
@@ -86,7 +86,7 @@ const LoginPage = () => {
         </header>
 
         <main className="flex-1 flex items-center justify-center px-4 py-8 md:px-12 md:py-0 w-full overflow-y-auto md:overflow-visible">
-          <div className="w-full max-w-[1080px] grid grid-cols-1 md:grid-cols-2 rounded-2xl md:rounded-3xl shadow-2xl glass-card border-none dark:border-solid dark:border-white/5 dark:bg-[#1a1631]/60 overflow-hidden">
+          <div className="w-full max-w-[1080px] grid grid-cols-1 md:grid-cols-2 rounded-2xl md:rounded-3xl shadow-2xl glass-card border-none dark:border-solid dark:border-slate-800 dark:bg-slate-800/60 overflow-hidden">
             <div className="hidden md:flex flex-col justify-center p-6 lg:p-10 bg-gradient-to-br from-primary/5 to-accent-blue/5 dark:from-primary/10 dark:to-accent-blue/5 border-r border-slate-100 dark:border-white/5 relative group md:order-1">
               <div className="absolute inset-0 opacity-40 dark:opacity-20 pointer-events-none">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-accent-blue/20 dark:bg-accent-blue rounded-full blur-[100px] dark:blur-[120px] -translate-y-1/2 translate-x-1/2"></div>
@@ -136,7 +136,7 @@ const LoginPage = () => {
               </div>
             </div>
 
-            <div className="flex flex-col p-6 lg:p-10 relative bg-white/40 dark:bg-[#131022]/40 md:order-2">
+            <div className="flex flex-col p-6 lg:p-10 relative bg-white/40 dark:bg-slate-900/40 md:order-2">
               <div className="flex mb-6">
                 <div className="flex h-10 w-full max-w-[240px] items-center justify-center rounded-xl bg-slate-100/80 dark:bg-slate-800/80 p-1 border border-slate-200/50 dark:border-slate-700/50">
                   <label className="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-lg px-2 has-[:checked]:bg-primary has-[:checked]:shadow-lg has-[:checked]:text-white text-slate-500 dark:text-slate-400 text-xs font-semibold transition-all">
@@ -163,7 +163,7 @@ const LoginPage = () => {
                       mail
                     </span>
                     <input
-                      className="w-full rounded-xl h-14 md:h-12 md:text-sm pl-12 pr-4 focus:outline-none input-glow transition-all bg-[#f1f5f9] dark:bg-[#1a1631]/40 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-white/20"
+                      className="w-full rounded-xl h-14 md:h-12 md:text-sm pl-12 pr-4 focus:outline-none input-glow transition-all bg-[#f1f5f9] dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500"
                       placeholder="yourname@academy.edu"
                       type="email"
                       required
@@ -185,7 +185,7 @@ const LoginPage = () => {
                       lock
                     </span>
                     <input
-                      className="w-full rounded-xl h-14 md:h-12 md:text-sm pl-12 pr-10 focus:outline-none input-glow transition-all bg-[#f1f5f9] dark:bg-[#1a1631]/40 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-white/20"
+                      className="w-full rounded-xl h-14 md:h-12 md:text-sm pl-12 pr-10 focus:outline-none input-glow transition-all bg-[#f1f5f9] dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500"
                       placeholder="••••••••••••"
                       type={showPassword ? "text" : "password"}
                       required

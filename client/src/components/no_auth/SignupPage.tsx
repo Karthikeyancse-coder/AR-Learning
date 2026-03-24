@@ -86,7 +86,7 @@ const SignupPage = () => {
 
   return (
     <div className={`flex flex-col min-h-screen w-full overflow-x-hidden ${isDarkMode ? "dark" : ""}`}>
-      <div className="bg-background-light dark:bg-[#0f1020] text-slate-900 dark:text-white mesh-gradient flex flex-col min-h-screen w-full font-display transition-colors duration-300">
+      <div className="bg-background-light dark:bg-slate-900 text-slate-900 dark:text-white mesh-gradient flex flex-col min-h-screen w-full font-display transition-colors duration-300">
         <header className="flex items-center justify-between px-4 lg:px-12 h-16 lg:h-20 shrink-0">
           <div className="flex items-center gap-3 px-2 text-slate-900 dark:text-white transition-colors">
             {/* <div className="bg-[#0da6f2] text-white p-1 rounded-lg flex items-center justify-center"> */}
