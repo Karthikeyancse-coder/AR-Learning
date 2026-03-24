@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Outlet, NavLink, useNavigate } from "react-router-dom";
+import { useAuth } from "../auth/AuthContext";
 
 const NAV_ITEMS = [
   { icon: "dashboard", label: "Overview", to: "/teacher/home" },
   { icon: "school", label: "Courses", to: "/teacher/courses" },
-  { icon: "how_to_reg", label: "Submissions", to: "/teacher/submissions" },
   { icon: "bar_chart", label: "Analytics", to: "/teacher/analytics" },
   { icon: "groups", label: "Students", to: "/teacher/students" },
   { icon: "lightbulb", label: "Insights", to: "/teacher/insights" },
@@ -14,6 +14,10 @@ const TeacherLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [dark, setDark] = useState(false);
   const navigate = useNavigate();
+  const { user } = useAuth();
+
+  const userName = user?.name || "Teacher Profile";
+  const userInitial = userName.charAt(0).toUpperCase();
 
   const handleLogout = () => {
     localStorage.removeItem("teacher_token");
@@ -83,24 +87,34 @@ const TeacherLayout = () => {
           dark ? "border-slate-700" : "border-slate-50"
         } ${!sidebarOpen ? "flex justify-center" : ""}`}>
           {sidebarOpen ? (
-            <div className={`flex items-center gap-3 p-3 rounded-2xl cursor-pointer transition-colors ${
-              dark ? "hover:bg-slate-700" : "hover:bg-slate-50"
+            <div 
+              onClick={() => navigate("/teacher/settings")}
+              className={`flex items-center gap-3 p-3 rounded-2xl cursor-pointer transition-colors border border-transparent ${
+              dark ? "hover:bg-slate-700 hover:border-slate-600" : "hover:bg-slate-50 hover:border-slate-200"
             }`}>
-              <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#006493] to-indigo-500 flex items-center justify-center text-white text-sm font-bold shrink-0">
-                T
+              <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#006493] to-indigo-500 flex items-center justify-center text-white text-[13px] font-black shrink-0 shadow-sm">
+                {userInitial}
               </div>
               <div className="flex-1 min-w-0">
                 <p className={`text-[12px] font-bold truncate ${
                   dark ? "text-white" : "text-[#181c22]"
-                }`}>Dr. Kumar</p>
-                <p className="text-[10px] text-slate-400 truncate">Biology • Gr 10-12</p>
+                }`}>{userName}</p>
+                <p className={`text-[10px] truncate ${dark ? "text-slate-400" : "text-slate-500"}`}>Biology • Gr 10-12</p>
               </div>
-              <button onClick={handleLogout} title="Sign out" className="text-slate-400 hover:text-red-500 transition-colors">
+              <button 
+                onClick={(e) => { e.stopPropagation(); handleLogout(); }} 
+                title="Sign out" 
+                className={`flex items-center justify-center w-8 h-8 rounded-xl transition-colors ${
+                  dark ? "text-slate-400 hover:bg-slate-800 hover:text-red-400" : "text-slate-400 hover:bg-white hover:text-red-500 shadow-sm"
+                }`}
+              >
                 <span className="material-symbols-outlined text-[18px]">logout</span>
               </button>
             </div>
           ) : (
-            <button onClick={handleLogout} title="Sign out" className="text-slate-400 hover:text-red-500 transition-colors p-2">
+            <button onClick={handleLogout} title="Sign out" className={`p-2 rounded-xl transition-colors ${
+              dark ? "text-slate-400 hover:bg-slate-800 hover:text-red-400" : "text-slate-400 hover:bg-slate-100 hover:text-red-500"
+            }`}>
               <span className="material-symbols-outlined text-[20px]">logout</span>
             </button>
           )}
@@ -138,15 +152,18 @@ const TeacherLayout = () => {
               <p className="text-[10px] md:text-xs font-medium text-slate-400">Welcome back,</p>
               <p className={`text-[13px] md:text-[15px] font-bold leading-tight ${
                 dark ? "text-white" : "text-[#181c22]"
-              }`}>Dr. Kumar</p>
+              }`}>{userName}</p>
             </div>
           </div>
 
           <div className="flex items-center gap-2 md:gap-3">
             {/* Mobile Profile Avatar */}
-            <div className="md:hidden w-8 h-8 rounded-full bg-gradient-to-br from-[#006493] to-indigo-500 flex items-center justify-center text-white text-[11px] font-bold shrink-0 shadow-sm">
-              T
-            </div>
+            <button 
+              onClick={() => navigate("/teacher/settings")}
+              className="md:hidden w-8 h-8 rounded-full bg-gradient-to-br from-[#006493] to-indigo-500 flex items-center justify-center text-white text-[11px] font-bold shrink-0 shadow-sm transition-transform active:scale-95"
+            >
+              {userInitial}
+            </button>
 
             {/* Theme Toggle */}
             <button

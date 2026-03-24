@@ -39,6 +39,7 @@ import QuizResults from "./components/teacher/QuizResults";
 import StudentsPage from "./components/teacher/StudentsPage";
 import Analytics from "./components/teacher/Analytics";
 import StudentInsights from "./components/teacher/StudentInsights";
+import TeacherSettings from "./components/teacher/TeacherSettings";
 
 const router = createBrowserRouter([
   {
@@ -103,6 +104,7 @@ const router = createBrowserRouter([
           { path: "students", element: <StudentsPage /> },
           { path: "analytics", element: <Analytics /> },
           { path: "insights", element: <StudentInsights /> },
+          { path: "settings", element: <TeacherSettings /> },
         ],
       },
     ],

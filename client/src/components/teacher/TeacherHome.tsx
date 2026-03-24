@@ -129,16 +129,23 @@ const TeacherHome = () => {
                 : "bg-white border-slate-100 shadow-[0_2px_12px_rgba(0,0,0,0.04)]"
         }`}>
           <h3 className={`text-[13px] font-black uppercase tracking-widest mb-6 ${dark ? "text-white" : "text-[#181c22]"}`}>Participation Trend</h3>
-          <div className="flex items-end justify-between gap-2 h-32 px-1 mb-4">
+          <div className="flex justify-center items-end gap-6 h-32 px-1 mb-4">
             {BARS.map((h, i) => (
-              <div key={i} className="flex-1 flex flex-col items-center gap-2 h-full">
+              <div key={i} className="flex-1 max-w-[42px] flex flex-col items-center gap-2 h-full group relative cursor-pointer">
                 <div className="w-full flex-1 flex items-end">
                     <div
-                      className="w-full rounded-t-[6px] transition-all hover:opacity-80 cursor-pointer"
+                      className="w-full relative rounded-t-lg transition-all duration-300 group-hover:brightness-110 group-hover:shadow-[0_4px_12px_rgba(0,0,0,0.15)] group-hover:-translate-y-1"
                       style={{ height: `${h}%`, background: i === 5 ? "#006493" : i === 6 ? "#c4c0ff" : dark ? "#334155" : "#e2e8f0" }}
-                    ></div>
+                    >
+                      {/* Tooltip */}
+                      <div className={`absolute -top-10 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-200 z-10 px-2 py-1 rounded text-[10px] font-bold whitespace-nowrap pointer-events-none transform group-hover:-translate-y-1 ${
+                          dark ? "bg-slate-800 text-white shadow-lg border border-slate-700" : "bg-slate-800 text-white shadow-md"
+                      }`}>
+                        {BAR_DAYS[i]}: {h}%
+                      </div>
+                    </div>
                 </div>
-                <span className={`text-[9px] font-bold ${dark ? "text-slate-500" : "text-slate-400"}`}>{BAR_DAYS[i]}</span>
+                <span className={`text-[9px] font-bold transition-colors ${dark ? "text-slate-500 group-hover:text-white" : "text-slate-400 group-hover:text-[#181c22]"}`}>{BAR_DAYS[i]}</span>
               </div>
             ))}
           </div>
@@ -159,24 +166,35 @@ const TeacherHome = () => {
             <svg viewBox="0 0 120 120" className="w-28 h-28">
               <circle cx="60" cy="60" r="50" fill="none" stroke={dark ? "#334155" : "#f1f5f9"} strokeWidth="14" />
               <circle cx="60" cy="60" r="50" fill="none" stroke="#006493" strokeWidth="14"
+                className="transition-all duration-300 hover:stroke-[16px] cursor-pointer"
                 strokeDasharray={`${2 * Math.PI * 50 * 0.22} ${2 * Math.PI * 50 * 0.78}`}
-                strokeDashoffset={2 * Math.PI * 50 * 0.25} strokeLinecap="round" />
+                strokeDashoffset={2 * Math.PI * 50 * 0.25} strokeLinecap="round">
+                <title>Top (&gt;85%): 22%</title>
+              </circle>
               <circle cx="60" cy="60" r="50" fill="none" stroke="#6366f1" strokeWidth="14"
+                className="transition-all duration-300 hover:stroke-[16px] cursor-pointer"
                 strokeDasharray={`${2 * Math.PI * 50 * 0.45} ${2 * Math.PI * 50 * 0.55}`}
-                strokeDashoffset={-2 * Math.PI * 50 * (1 - 0.25 - 0.22)} strokeLinecap="round" />
+                strokeDashoffset={-2 * Math.PI * 50 * (1 - 0.25 - 0.22)} strokeLinecap="round">
+                <title>Average: 45%</title>
+              </circle>
               <circle cx="60" cy="60" r="50" fill="none" stroke="#ef4444" strokeWidth="14"
+                className="transition-all duration-300 hover:stroke-[16px] cursor-pointer"
                 strokeDasharray={`${2 * Math.PI * 50 * 0.33} ${2 * Math.PI * 50 * 0.67}`}
-                strokeDashoffset={-2 * Math.PI * 50 * (1 - 0.25 - 0.22 - 0.45)} strokeLinecap="round" />
+                strokeDashoffset={-2 * Math.PI * 50 * (1 - 0.25 - 0.22 - 0.45)} strokeLinecap="round">
+                <title>At Risk (&lt;50%): 33%</title>
+              </circle>
               <text x="60" y="63" textAnchor="middle" fill={dark ? "white" : "#181c22"} fontSize="16" fontWeight="800">72%</text>
               <text x="60" y="75" textAnchor="middle" fill={dark ? "#94a3b8" : "#94a3b8"} fontSize="8">avg score</text>
             </svg>
           </div>
           <div className="space-y-2">
             {DONUT_BANDS.map((b) => (
-              <div key={b.label} className="flex items-center justify-between">
+              <div key={b.label} className={`flex items-center justify-between group cursor-pointer p-1.5 -mx-1.5 rounded-lg transition-colors ${
+                  dark ? "hover:bg-slate-800" : "hover:bg-slate-50"
+              }`}>
                 <div className="flex items-center gap-2">
-                  <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: b.color }}></div>
-                  <span className={`text-[11px] font-medium ${dark ? "text-slate-400" : "text-slate-600"}`}>{b.label}</span>
+                  <div className="w-2.5 h-2.5 rounded-full shrink-0 group-hover:scale-125 transition-transform" style={{ background: b.color }}></div>
+                  <span className={`text-[11px] font-medium transition-colors ${dark ? "text-slate-400 group-hover:text-white" : "text-slate-600 group-hover:text-[#181c22]"}`}>{b.label}</span>
                 </div>
                 <span className={`text-[11px] font-bold ${dark ? "text-slate-200" : "text-slate-800"}`}>{b.pct}%</span>
               </div>

@@ -142,7 +142,9 @@ const PublishedTasks = () => {
                           }`}>
                           {t.type === "quiz" ? "Results" : "Submissions"}
                         </button>
-                        <button className={`text-[11px] font-bold px-2 py-1 rounded-lg transition-colors ${
+                        <button 
+                          onClick={() => navigate(t.type === "quiz" ? "/teacher/quiz-builder" : "/teacher/assignment-builder")}
+                          className={`text-[11px] font-bold px-2 py-1 rounded-lg transition-colors ${
                           dark ? "text-slate-400 hover:text-white hover:bg-slate-700" : "text-slate-500 hover:text-[#181c22] hover:bg-slate-100"
                         }`}>
                           Edit
