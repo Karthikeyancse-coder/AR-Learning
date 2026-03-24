@@ -309,7 +309,7 @@ const SignupPage = () => {
                     <span className="material-symbols-outlined text-2xl">view_in_ar</span>
                   </div>
                   <h2 className="text-xl font-extrabold tracking-tight">
-                    AR-Learn
+                    Learn.AR
                   </h2>
                 </div>
 

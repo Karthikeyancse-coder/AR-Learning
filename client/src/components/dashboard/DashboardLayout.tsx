@@ -63,7 +63,7 @@ const DashboardLayout = () => {
               <span className="material-symbols-outlined font-bold">school</span>
             </div>
             <div className="flex flex-col">
-              <span className="text-xl font-black text-[#006493] dark:text-blue-400 tracking-tight transition-colors">AR-Learn</span>
+              <span className="text-xl font-black text-[#006493] dark:text-blue-400 tracking-tight transition-colors">Learn.AR</span>
               <span className="text-[10px] text-slate-500 dark:text-slate-400 tracking-widest font-bold uppercase transition-colors">Student Portal</span>
             </div>
           </div>
@@ -156,7 +156,7 @@ const DashboardLayout = () => {
               <div className="w-8 h-8 bg-[#006493] dark:bg-blue-600 rounded-lg flex items-center justify-center text-white shadow-sm transition-colors">
                 <span className="material-symbols-outlined text-sm font-bold">school</span>
               </div>
-              <span className="text-lg sm:text-xl font-black text-[#006493] dark:text-blue-400 tracking-tight transition-colors">AR-Learn</span>
+              <span className="text-lg sm:text-xl font-black text-[#006493] dark:text-blue-400 tracking-tight transition-colors">Learn.AR</span>
             </div>
 
             <div className="flex items-center gap-1 sm:gap-2 lg:gap-3 ml-auto">

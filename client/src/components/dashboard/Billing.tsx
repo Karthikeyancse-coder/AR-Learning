@@ -66,7 +66,7 @@ const Billing = () => {
           <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-cyan-300 rounded-full blur-[100px]" />
         </div>
         <div className="relative z-10 max-w-2xl mx-auto">
-          <span className="inline-block px-3 py-1 bg-white/20 text-white text-[10px] font-bold tracking-widest uppercase rounded-full mb-4">AR-Learn Premium</span>
+          <span className="inline-block px-3 py-1 bg-white/20 text-white text-[10px] font-bold tracking-widest uppercase rounded-full mb-4">Learn.AR Premium</span>
           <h1 className="text-4xl sm:text-5xl font-black leading-tight mb-4">Choose Your<br /><span className="text-cyan-300">Learning Plan</span></h1>
           <p className="text-blue-100 text-base leading-relaxed">Unlock more AR learning power, advanced models, and premium academic tools.</p>
         </div>
@@ -200,7 +200,7 @@ const Billing = () => {
           </div>
           <div className="relative z-10">
             <h2 className="text-3xl font-black mb-3">Ready to unlock <span className="text-cyan-300">Premium</span> learning?</h2>
-            <p className="text-blue-100 mb-8 text-sm">Join thousands of students accelerating their academic journey with AR-Learn Premium.</p>
+            <p className="text-blue-100 mb-8 text-sm">Join thousands of students accelerating their academic journey with Learn.AR Premium.</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button
                 onClick={handleUpgrade}

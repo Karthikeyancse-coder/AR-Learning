@@ -98,7 +98,7 @@ const LoginPage = () => {
                   <div className="bg-[#0da6f2] text-white p-1 rounded-lg flex items-center justify-center">
                     <span className="material-symbols-outlined text-2xl">view_in_ar</span>
                   </div>
-                  <h2 className="text-xl font-extrabold tracking-tight">AR-Learn</h2>
+                  <h2 className="text-xl font-extrabold tracking-tight">Learn.AR</h2>
                 </div>
 
                 <span className="inline-block px-3 py-1 rounded-lg bg-primary/10 dark:bg-accent-green/20 text-primary dark:text-accent-green text-[10px] font-bold tracking-widest uppercase mb-6">
@@ -290,7 +290,7 @@ const LoginPage = () => {
             <a className="transition-colors hover:text-primary dark:hover:text-white" href="#">Terms of Service</a>
             <a className="transition-colors hover:text-primary dark:hover:text-white" href="#">Support Lab</a>
           </div>
-          <p>© 2024 AR-Learn. Next-Gen Academic Interface.</p>
+          <p>© 2024 Learn.AR. Next-Gen Academic Interface.</p>
         </footer>
       </div>
     </div>
