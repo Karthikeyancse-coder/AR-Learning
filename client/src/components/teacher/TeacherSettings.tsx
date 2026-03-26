@@ -317,7 +317,7 @@ const TeacherSettings = () => {
   };
 
   /* ── Document upload ── */
-  const handleDocUpload = (field: keyof DocsData, ref: React.RefObject<HTMLInputElement>) => { ref.current?.click(); };
+  const handleDocUpload = (_field: keyof DocsData, ref: React.RefObject<HTMLInputElement | null>) => { ref.current?.click(); };
   const handleDocChange = (field: keyof DocsData) => (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
