@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 
 interface Option { text: string }
@@ -35,6 +35,20 @@ const QuizBuilder = () => {
   const [questions, setQuestions] = useState<Question[]>([blankQuestion(1)]);
   const [activeQ, setActiveQ] = useState(0);
   const [saved, setSaved] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  // Close sidebar on ESC key
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setSidebarOpen(false); };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, []);
+
+  // Lock body scroll on mobile when sidebar is open
+  useEffect(() => {
+    document.body.style.overflow = sidebarOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [sidebarOpen]);
 
   const addQuestion = () => {
     const newQ = blankQuestion(questions.length + 1);
@@ -74,13 +88,34 @@ const QuizBuilder = () => {
   const q = questions[activeQ];
 
   return (
-    <div className="flex h-full overflow-hidden" style={{ fontFamily: "Inter, sans-serif" }}>
+    <div className="flex h-full overflow-hidden relative" style={{ fontFamily: "Inter, sans-serif" }}>
+      {/* Mobile overlay */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 z-20 bg-black/50 md:hidden backdrop-blur-sm"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
       {/* Question sidebar */}
-      <div className={`w-52 shrink-0 border-r flex flex-col transition-colors ${
-        dark ? "bg-[#1e293b] border-slate-700" : "bg-white border-slate-100"
-      }`}>
-        <div className={`p-4 border-b ${dark ? "border-slate-700" : "border-slate-100"}`}>
+      <div className={`
+        md:relative md:translate-x-0 md:w-52 md:flex md:flex-col md:shrink-0
+        fixed top-0 left-0 h-full z-30 w-[75vw] max-w-[320px]
+        flex flex-col shrink-0 border-r transition-all duration-300
+        ${ sidebarOpen ? "translate-x-0 shadow-2xl" : "-translate-x-full" }
+        ${ dark ? "bg-[#1e293b] border-slate-700" : "bg-white border-slate-100" }
+      `}>
+        <div className={`p-4 border-b flex items-center justify-between ${dark ? "border-slate-700" : "border-slate-100"}`}>
           <p className="text-[11px] font-black text-slate-400 uppercase tracking-widest">Questions</p>
+          {/* Close button — mobile only */}
+          <button
+            onClick={() => setSidebarOpen(false)}
+            className={`md:hidden w-7 h-7 flex items-center justify-center rounded-lg transition-colors ${
+              dark ? "text-slate-400 hover:bg-slate-700 hover:text-white" : "text-slate-500 hover:bg-slate-100"
+            }`}
+          >
+            <span className="material-symbols-outlined text-[18px]">close</span>
+          </button>
         </div>
         <div className="flex-1 overflow-y-auto p-3 space-y-1.5 custom-scrollbar">
           {questions.map((question, i) => (
@@ -121,6 +156,15 @@ const QuizBuilder = () => {
             dark ? "bg-[#1e293b] border-slate-700" : "bg-white border-slate-100"
         }`}>
           <div className="flex items-center gap-3">
+            {/* Mobile sidebar toggle */}
+            <button
+              onClick={() => setSidebarOpen(true)}
+              className={`md:hidden w-9 h-9 flex items-center justify-center rounded-xl transition-colors ${
+                dark ? "text-slate-400 hover:bg-slate-700 hover:text-white" : "text-slate-500 hover:bg-slate-100"
+              }`}
+            >
+              <span className="material-symbols-outlined text-[20px]">menu</span>
+            </button>
             <button onClick={handleBack} className={`transition-colors w-9 h-9 flex items-center justify-center rounded-xl ${
                 dark ? "text-slate-400 hover:text-white hover:bg-slate-700" : "text-slate-400 hover:text-slate-600 hover:bg-slate-50"
             }`}>

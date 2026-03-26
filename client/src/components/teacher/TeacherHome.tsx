@@ -1,11 +1,18 @@
 import { useNavigate, useOutletContext } from "react-router-dom";
 
+const completionRateStr = "81%";
+const completionRate = parseInt(completionRateStr);
+const incompleteRateStr = `${100 - completionRate}%`;
+
+const onTimeRateStr = "68%";
+
 const STAT_CARDS = [
   { label: "Total Students", value: "248", icon: "groups", lightColor: "bg-blue-50 text-[#006493]", darkColor: "bg-blue-500/10 text-blue-400", lightBorder: "border-blue-100", darkBorder: "border-blue-500/20" },
   { label: "Active Quizzes", value: "07", icon: "quiz", lightColor: "bg-indigo-50 text-indigo-600", darkColor: "bg-indigo-500/10 text-indigo-400", lightBorder: "border-indigo-100", darkBorder: "border-indigo-500/20" },
   { label: "Pending Reviews", value: "34", icon: "rate_review", lightColor: "bg-amber-50 text-amber-600", darkColor: "bg-amber-500/10 text-amber-400", lightBorder: "border-amber-100", darkBorder: "border-amber-500/20" },
-  { label: "Avg Score", value: "72%", icon: "trending_up", lightColor: "bg-emerald-50 text-emerald-600", darkColor: "bg-emerald-500/10 text-emerald-400", lightBorder: "border-emerald-100", darkBorder: "border-emerald-500/20" },
-  { label: "Completion Rate", value: "81%", icon: "task_alt", lightColor: "bg-green-50 text-green-600", darkColor: "bg-green-500/10 text-green-400", lightBorder: "border-green-100", darkBorder: "border-green-500/20" },
+  { label: "On-Time Rate", value: onTimeRateStr, icon: "timer", lightColor: "bg-emerald-50 text-emerald-600", darkColor: "bg-emerald-500/10 text-emerald-400", lightBorder: "border-emerald-100", darkBorder: "border-emerald-500/20", subtitle: "Submitted before deadline" },
+  { label: "Completion Rate", value: completionRateStr, icon: "task_alt", lightColor: "bg-green-50 text-green-600", darkColor: "bg-green-500/10 text-green-400", lightBorder: "border-green-100", darkBorder: "border-green-500/20" },
+  { label: "Incomplete Rate", value: incompleteRateStr, icon: "incomplete_circle", lightColor: "bg-orange-50 text-orange-500", darkColor: "bg-orange-500/10 text-orange-400", lightBorder: "border-orange-100", darkBorder: "border-orange-500/20" },
   { label: "Flagged Students", value: "12", icon: "flag", lightColor: "bg-red-50 text-red-500", darkColor: "bg-red-500/10 text-red-400", lightBorder: "border-red-100", darkBorder: "border-red-500/20" },
 ];
 
@@ -64,9 +71,9 @@ const TeacherHome = () => {
   return (
     <div className="p-6 space-y-8 animate-in fade-in slide-in-from-bottom-3 duration-400" style={{ fontFamily: "Inter, sans-serif" }}>
       {/* ── Stat Cards ── */}
-      <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 2xl:grid-cols-7 xl:grid-cols-4 gap-4">
         {STAT_CARDS.map((c) => (
-          <div key={c.label} className={`rounded-2xl border p-5 transition-shadow ${
+          <div key={c.label} className={`relative rounded-2xl border p-5 transition-shadow group ${
             dark 
                 ? `bg-[#1e293b] ${c.darkBorder}` 
                 : `bg-white ${c.lightBorder} shadow-[0_2px_12px_rgba(0,0,0,0.04)] hover:shadow-md`
@@ -137,12 +144,7 @@ const TeacherHome = () => {
                       className="w-full relative rounded-t-lg transition-all duration-300 group-hover:brightness-110 group-hover:shadow-[0_4px_12px_rgba(0,0,0,0.15)] group-hover:-translate-y-1"
                       style={{ height: `${h}%`, background: i === 5 ? "#006493" : i === 6 ? "#c4c0ff" : dark ? "#334155" : "#e2e8f0" }}
                     >
-                      {/* Tooltip */}
-                      <div className={`absolute -top-10 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-200 z-10 px-2 py-1 rounded text-[10px] font-bold whitespace-nowrap pointer-events-none transform group-hover:-translate-y-1 ${
-                          dark ? "bg-slate-800 text-white shadow-lg border border-slate-700" : "bg-slate-800 text-white shadow-md"
-                      }`}>
-                        {BAR_DAYS[i]}: {h}%
-                      </div>
+                      {/* Hover text removed to prevent unwanted popups */}
                     </div>
                 </div>
                 <span className={`text-[9px] font-bold transition-colors ${dark ? "text-slate-500 group-hover:text-white" : "text-slate-400 group-hover:text-[#181c22]"}`}>{BAR_DAYS[i]}</span>
@@ -166,25 +168,22 @@ const TeacherHome = () => {
             <svg viewBox="0 0 120 120" className="w-28 h-28">
               <circle cx="60" cy="60" r="50" fill="none" stroke={dark ? "#334155" : "#f1f5f9"} strokeWidth="14" />
               <circle cx="60" cy="60" r="50" fill="none" stroke="#006493" strokeWidth="14"
-                className="transition-all duration-300 hover:stroke-[16px] cursor-pointer"
+                className="transition-all duration-300 hover:stroke-[16px]"
                 strokeDasharray={`${2 * Math.PI * 50 * 0.22} ${2 * Math.PI * 50 * 0.78}`}
                 strokeDashoffset={2 * Math.PI * 50 * 0.25} strokeLinecap="round">
-                <title>Top (&gt;85%): 22%</title>
               </circle>
               <circle cx="60" cy="60" r="50" fill="none" stroke="#6366f1" strokeWidth="14"
-                className="transition-all duration-300 hover:stroke-[16px] cursor-pointer"
+                className="transition-all duration-300 hover:stroke-[16px]"
                 strokeDasharray={`${2 * Math.PI * 50 * 0.45} ${2 * Math.PI * 50 * 0.55}`}
                 strokeDashoffset={-2 * Math.PI * 50 * (1 - 0.25 - 0.22)} strokeLinecap="round">
-                <title>Average: 45%</title>
               </circle>
               <circle cx="60" cy="60" r="50" fill="none" stroke="#ef4444" strokeWidth="14"
-                className="transition-all duration-300 hover:stroke-[16px] cursor-pointer"
+                className="transition-all duration-300 hover:stroke-[16px]"
                 strokeDasharray={`${2 * Math.PI * 50 * 0.33} ${2 * Math.PI * 50 * 0.67}`}
                 strokeDashoffset={-2 * Math.PI * 50 * (1 - 0.25 - 0.22 - 0.45)} strokeLinecap="round">
-                <title>At Risk (&lt;50%): 33%</title>
               </circle>
-              <text x="60" y="63" textAnchor="middle" fill={dark ? "white" : "#181c22"} fontSize="16" fontWeight="800">72%</text>
-              <text x="60" y="75" textAnchor="middle" fill={dark ? "#94a3b8" : "#94a3b8"} fontSize="8">avg score</text>
+              <text x="60" y="63" textAnchor="middle" fill={dark ? "white" : "#181c22"} fontSize="16" fontWeight="800">24/7</text>
+              <text x="60" y="75" textAnchor="middle" fill={dark ? "#94a3b8" : "#94a3b8"} fontSize="8">engagement</text>
             </svg>
           </div>
           <div className="space-y-2">
