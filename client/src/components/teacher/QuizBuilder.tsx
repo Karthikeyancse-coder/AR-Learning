@@ -152,10 +152,10 @@ const QuizBuilder = () => {
       {/* Main editor */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header bar */}
-        <div className={`border-b px-6 py-3.5 flex items-center justify-between shrink-0 transition-colors ${
+        <div className={`border-b px-4 py-3 sm:px-6 sm:py-3.5 flex flex-wrap items-center justify-between gap-4 shrink-0 transition-colors ${
             dark ? "bg-[#1e293b] border-slate-700" : "bg-white border-slate-100"
         }`}>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 shrink-0">
             {/* Mobile sidebar toggle */}
             <button
               onClick={() => setSidebarOpen(true)}
@@ -175,18 +175,18 @@ const QuizBuilder = () => {
               <p className={`text-[10px] ${dark ? "text-slate-400" : "text-slate-400"}`}>{questions.length} question{questions.length !== 1 ? "s" : ""} · {meta.subject}</p>
             </div>
           </div>
-          <div className="flex items-center gap-2">
-            <button className={`px-4 py-2 text-[12px] font-bold rounded-xl transition-colors ${
+          <div className="flex items-center flex-wrap gap-2 justify-end flex-grow sm:flex-grow-0">
+            <button className={`flex-1 sm:flex-none px-3 py-2 sm:px-4 sm:py-2 min-h-[40px] text-[11px] sm:text-[12px] font-bold rounded-xl transition-colors flex items-center justify-center ${
                 dark ? "bg-slate-800 text-slate-300 hover:bg-slate-700" : "bg-slate-100 text-slate-600 hover:bg-slate-200"
             }`}>
               Save Draft
             </button>
-            <button className={`px-4 py-2 text-[12px] font-bold rounded-xl transition-colors ${
+            <button className={`flex-1 sm:flex-none px-3 py-2 sm:px-4 sm:py-2 min-h-[40px] text-[11px] sm:text-[12px] font-bold rounded-xl transition-colors flex items-center justify-center ${
                 dark ? "bg-slate-800 text-slate-300 hover:bg-slate-700" : "bg-slate-100 text-slate-600 hover:bg-slate-200"
             }`}>
               Preview
             </button>
-            <button onClick={handlePublish} className={`px-4 py-2 text-[12px] font-bold rounded-xl transition-all flex items-center gap-1.5 ${
+            <button onClick={handlePublish} className={`flex-1 sm:flex-none px-4 py-2 min-h-[40px] text-[11px] sm:text-[12px] font-bold rounded-xl transition-all flex items-center justify-center gap-1.5 min-w-[100px] ${
                 saved 
                   ? (dark ? "bg-emerald-500/20 text-emerald-400" : "bg-emerald-500 text-white") 
                   : (dark ? "bg-[#006493] text-white hover:bg-blue-600" : "bg-[#006493] text-white hover:bg-blue-700")
@@ -197,9 +197,9 @@ const QuizBuilder = () => {
           </div>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-6 space-y-6">
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6 overflow-x-hidden">
           {/* Meta form */}
-          <div className={`rounded-2xl border p-6 ${
+          <div className={`rounded-2xl border p-4 sm:p-6 ${
               dark ? "bg-[#1e293b] border-slate-700 shadow-none" : "bg-white border-slate-100 shadow-[0_2px_12px_rgba(0,0,0,0.04)]"
           }`}>
             <h3 className={`text-[11px] font-black uppercase tracking-widest mb-5 ${dark ? "text-slate-500" : "text-slate-400"}`}>Quiz Details</h3>
@@ -268,7 +268,7 @@ const QuizBuilder = () => {
           </div>
 
           {/* Question editor */}
-          <div className={`rounded-2xl border p-6 ${
+          <div className={`rounded-2xl border p-4 sm:p-6 ${
               dark ? "bg-[#1e293b] border-slate-700 shadow-none" : "bg-white border-slate-100 shadow-[0_2px_12px_rgba(0,0,0,0.04)]"
           }`}>
             <div className="flex items-center justify-between mb-5">
@@ -323,18 +323,22 @@ const QuizBuilder = () => {
 
                   return (
                     <div key={oi}
-                      className={`flex items-center gap-3 p-3.5 rounded-xl border-2 cursor-pointer transition-all ${rowClass}`}
+                      className={`flex items-center justify-between gap-3 p-3.5 rounded-xl border-2 cursor-pointer transition-all ${rowClass}`}
                       onClick={() => updateQuestion(activeQ, "correctIndex", oi)}
                     >
-                      <span className={`w-6 h-6 rounded-full border-2 flex items-center justify-center text-[11px] font-black shrink-0 ${bubbleClass}`}>
-                        {String.fromCharCode(65 + oi)}
-                      </span>
-                      <input type="text" placeholder={`Option ${String.fromCharCode(65 + oi)}`}
-                        className={`flex-1 bg-transparent text-sm font-medium focus:outline-none ${dark ? "text-white placeholder-slate-500" : "text-[#181c22]"}`}
-                        value={opt.text}
-                        onClick={(e) => e.stopPropagation()}
-                        onChange={(e) => updateOption(activeQ, oi, e.target.value)} />
-                      {isCorrect && <span className={`material-symbols-outlined text-[18px] ${dark ? "text-emerald-400" : "text-emerald-500"}`}>check_circle</span>}
+                      <div className="flex items-center gap-3 flex-1 min-w-0">
+                        <span className={`w-6 h-6 rounded-full border-2 flex items-center justify-center text-[11px] font-black shrink-0 ${bubbleClass}`}>
+                          {String.fromCharCode(65 + oi)}
+                        </span>
+                        <input type="text" placeholder={`Option ${String.fromCharCode(65 + oi)}`}
+                          className={`flex-1 bg-transparent text-sm font-medium focus:outline-none min-w-0 ${dark ? "text-white placeholder-slate-500" : "text-[#181c22]"}`}
+                          value={opt.text}
+                          onClick={(e) => e.stopPropagation()}
+                          onChange={(e) => updateOption(activeQ, oi, e.target.value)} />
+                      </div>
+                      <div className="w-6 h-6 flex items-center justify-center shrink-0">
+                        {isCorrect && <span className={`material-symbols-outlined text-[18px] ${dark ? "text-emerald-400" : "text-emerald-500"}`}>check_circle</span>}
+                      </div>
                     </div>
                   );
                 })}

@@ -1,19 +1,15 @@
 import { useNavigate, useOutletContext } from "react-router-dom";
 
 const completionRateStr = "81%";
-const completionRate = parseInt(completionRateStr);
-const incompleteRateStr = `${100 - completionRate}%`;
-
 const onTimeRateStr = "68%";
 
 const STAT_CARDS = [
-  { label: "Total Students", value: "248", icon: "groups", lightColor: "bg-blue-50 text-[#006493]", darkColor: "bg-blue-500/10 text-blue-400", lightBorder: "border-blue-100", darkBorder: "border-blue-500/20" },
-  { label: "Active Quizzes", value: "07", icon: "quiz", lightColor: "bg-indigo-50 text-indigo-600", darkColor: "bg-indigo-500/10 text-indigo-400", lightBorder: "border-indigo-100", darkBorder: "border-indigo-500/20" },
-  { label: "Pending Reviews", value: "34", icon: "rate_review", lightColor: "bg-amber-50 text-amber-600", darkColor: "bg-amber-500/10 text-amber-400", lightBorder: "border-amber-100", darkBorder: "border-amber-500/20" },
-  { label: "On-Time Rate", value: onTimeRateStr, icon: "timer", lightColor: "bg-emerald-50 text-emerald-600", darkColor: "bg-emerald-500/10 text-emerald-400", lightBorder: "border-emerald-100", darkBorder: "border-emerald-500/20", subtitle: "Submitted before deadline" },
-  { label: "Completion Rate", value: completionRateStr, icon: "task_alt", lightColor: "bg-green-50 text-green-600", darkColor: "bg-green-500/10 text-green-400", lightBorder: "border-green-100", darkBorder: "border-green-500/20" },
-  { label: "Incomplete Rate", value: incompleteRateStr, icon: "incomplete_circle", lightColor: "bg-orange-50 text-orange-500", darkColor: "bg-orange-500/10 text-orange-400", lightBorder: "border-orange-100", darkBorder: "border-orange-500/20" },
-  { label: "Flagged Students", value: "12", icon: "flag", lightColor: "bg-red-50 text-red-500", darkColor: "bg-red-500/10 text-red-400", lightBorder: "border-red-100", darkBorder: "border-red-500/20" },
+  { label: "Students", value: "248", icon: "groups", lightColor: "bg-blue-50 text-[#006493]", darkColor: "bg-blue-500/10 text-blue-400" },
+  { label: "Quizzes", value: "07", icon: "quiz", lightColor: "bg-indigo-50 text-indigo-600", darkColor: "bg-indigo-500/10 text-indigo-400" },
+  { label: "Reviews", value: "34", icon: "rate_review", lightColor: "bg-amber-50 text-amber-600", darkColor: "bg-amber-500/10 text-amber-400" },
+  { label: "On-Time", value: onTimeRateStr, icon: "timer", lightColor: "bg-emerald-50 text-emerald-600", darkColor: "bg-emerald-500/10 text-emerald-400" },
+  { label: "Completion", value: completionRateStr, icon: "task_alt", lightColor: "bg-green-50 text-green-600", darkColor: "bg-green-500/10 text-green-400" },
+  { label: "Flagged", value: "12", icon: "flag", lightColor: "bg-red-50 text-red-500", darkColor: "bg-red-500/10 text-red-400" },
 ];
 
 const RECENT_SUBMISSIONS = [
@@ -69,20 +65,20 @@ const TeacherHome = () => {
   const { dark } = useOutletContext<{ dark: boolean }>();
 
   return (
-    <div className="p-6 space-y-8 animate-in fade-in slide-in-from-bottom-3 duration-400" style={{ fontFamily: "Inter, sans-serif" }}>
+    <div className="p-4 sm:p-6 space-y-6 sm:space-y-8 animate-in fade-in slide-in-from-bottom-3 duration-400" style={{ fontFamily: "Inter, sans-serif" }}>
       {/* ── Stat Cards ── */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 2xl:grid-cols-7 xl:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 2xl:grid-cols-7 xl:grid-cols-4 gap-3 sm:gap-4">
         {STAT_CARDS.map((c) => (
-          <div key={c.label} className={`relative rounded-2xl border p-5 transition-shadow group ${
+          <div key={c.label} className={`relative rounded-2xl border p-3.5 sm:p-5 min-h-[110px] transition-all duration-200 group hover:scale-[1.02] ${
             dark 
-                ? `bg-[#1e293b] ${c.darkBorder}` 
-                : `bg-white ${c.lightBorder} shadow-[0_2px_12px_rgba(0,0,0,0.04)] hover:shadow-md`
+                ? `bg-[#1e293b] border-slate-700 hover:border-slate-600` 
+                : `bg-white border-slate-100 hover:border-[#006493]/20`
           }`}>
-            <div className={`w-9 h-9 rounded-xl flex items-center justify-center mb-3 ${dark ? c.darkColor : c.lightColor}`}>
-              <span className="material-symbols-outlined text-[18px]">{c.icon}</span>
+            <div className={`w-8 h-8 rounded-lg flex items-center justify-center mb-2.5 ${dark ? c.darkColor : c.lightColor}`}>
+              <span className="material-symbols-outlined text-[16px]">{c.icon}</span>
             </div>
-            <p className={`text-2xl font-black ${dark ? "text-white" : "text-[#181c22]"}`}>{c.value}</p>
-            <p className={`text-[10px] font-bold uppercase tracking-widest mt-1 ${dark ? "text-slate-500" : "text-slate-400"}`}>{c.label}</p>
+            <p className={`text-xl sm:text-2xl font-semibold leading-tight ${dark ? "text-white" : "text-[#181c22]"}`}>{c.value}</p>
+            <p className={`text-[10px] font-medium uppercase tracking-widest mt-0.5 whitespace-nowrap overflow-hidden text-ellipsis ${dark ? "text-slate-500" : "text-slate-400"}`}>{c.label}</p>
           </div>
         ))}
       </div>
@@ -90,10 +86,10 @@ const TeacherHome = () => {
       {/* ── Middle Row ── */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Live Tasks */}
-        <div className={`rounded-2xl border p-6 ${
+        <div className={`rounded-2xl border p-6 transition-all duration-300 hover:border-[#006493]/20 ${
             dark 
                 ? "bg-[#1e293b] border-slate-700" 
-                : "bg-white border-slate-100 shadow-[0_2px_12px_rgba(0,0,0,0.04)]"
+                : "bg-white border-slate-100"
         }`}>
           <div className="flex items-center justify-between mb-5">
             <h3 className={`text-[13px] font-black uppercase tracking-widest ${dark ? "text-white" : "text-[#181c22]"}`}>Today's Live Tasks</h3>
@@ -130,10 +126,10 @@ const TeacherHome = () => {
         </div>
 
         {/* Participation Trend */}
-        <div className={`rounded-2xl border p-6 ${
+        <div className={`rounded-2xl border p-6 transition-all duration-300 hover:border-[#006493]/20 ${
             dark 
                 ? "bg-[#1e293b] border-slate-700" 
-                : "bg-white border-slate-100 shadow-[0_2px_12px_rgba(0,0,0,0.04)]"
+                : "bg-white border-slate-100"
         }`}>
           <h3 className={`text-[13px] font-black uppercase tracking-widest mb-6 ${dark ? "text-white" : "text-[#181c22]"}`}>Participation Trend</h3>
           <div className="flex justify-center items-end gap-6 h-32 px-1 mb-4">
@@ -158,10 +154,10 @@ const TeacherHome = () => {
         </div>
 
         {/* Score Distribution */}
-        <div className={`rounded-2xl border p-6 ${
+        <div className={`rounded-2xl border p-6 transition-all duration-300 hover:border-[#006493]/20 ${
             dark 
                 ? "bg-[#1e293b] border-slate-700" 
-                : "bg-white border-slate-100 shadow-[0_2px_12px_rgba(0,0,0,0.04)]"
+                : "bg-white border-slate-100"
         }`}>
           <h3 className={`text-[13px] font-black uppercase tracking-widest mb-6 ${dark ? "text-white" : "text-[#181c22]"}`}>Score Distribution</h3>
           <div className="flex items-center justify-center mb-5">
@@ -205,10 +201,10 @@ const TeacherHome = () => {
       {/* ── Bottom Row ── */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Recent Submissions */}
-        <div className={`lg:col-span-2 rounded-2xl border p-6 ${
+        <div className={`lg:col-span-2 rounded-2xl border p-6 transition-all duration-300 hover:border-[#006493]/20 ${
             dark 
                 ? "bg-[#1e293b] border-slate-700" 
-                : "bg-white border-slate-100 shadow-[0_2px_12px_rgba(0,0,0,0.04)]"
+                : "bg-white border-slate-100"
         }`}>
           <div className="flex items-center justify-between mb-5">
             <h3 className={`text-[13px] font-black uppercase tracking-widest ${dark ? "text-white" : "text-[#181c22]"}`}>Recent Submissions</h3>
