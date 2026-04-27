@@ -1,4 +1,5 @@
 /node_modules/
 .env
 
-
+# Generated project reports (ignored at root .gitignore)
+# Note: git does not support ../ paths in .gitignore; rule is enforced by root .gitignore
