@@ -86,7 +86,7 @@ const Home = () => {
       {/* Stats Grid */}
       <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Overall Progress */}
-        <div className="bg-white dark:bg-[#1e293b] rounded-3xl p-6 border border-slate-100 dark:border-slate-800 shadow-sm flex flex-col items-center justify-center text-center relative overflow-hidden transition-colors duration-300">
+        <div id="tour-analytics" className="bg-white dark:bg-[#1e293b] rounded-3xl p-6 border border-slate-100 dark:border-slate-800 shadow-sm flex flex-col items-center justify-center text-center relative overflow-hidden transition-colors duration-300">
           <h3 className="text-sm font-bold text-slate-500 dark:text-slate-400 absolute top-6 left-6 transition-colors">Program Progress</h3>
           <button className="absolute top-6 right-6 text-slate-400 hover:text-[#006493] dark:hover:text-blue-400 transition-colors cursor-pointer">
             <span className="material-symbols-outlined text-sm">more_horiz</span>

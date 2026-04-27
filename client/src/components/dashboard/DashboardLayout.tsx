@@ -9,6 +9,7 @@ import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import "katex/dist/katex.min.css";
+import StudentTour from "./StudentTour";
 
 const DashboardLayout = () => {
   const navigate = useNavigate();
@@ -52,6 +53,9 @@ const DashboardLayout = () => {
 
   return (
     <div className={`font-display ${isDarkMode ? "dark" : ""}`}>
+      {/* ── Guidance System ── */}
+      <StudentTour />
+
       {/* Ensure dark mode background fills the screen and resets text color */}
       <div className="bg-[#f9f9ff] dark:bg-[#0f172a] text-[#181c22] dark:text-slate-200 min-h-screen antialiased select-none lg:select-auto transition-colors duration-300">
 
@@ -70,11 +74,11 @@ const DashboardLayout = () => {
 
           {/* Navigation Links */}
           <nav className="flex-1 flex flex-col gap-2">
-            <button onClick={() => navigate("/dashboard")} className={`flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-all duration-200 ${isActive("/dashboard") ? "bg-blue-50 dark:bg-blue-500/10 text-[#006493] dark:text-blue-400 shadow-sm" : "text-slate-600 dark:text-slate-400 hover:text-[#006493] dark:hover:text-blue-300 hover:bg-slate-50 dark:hover:bg-slate-800"}`}>
+            <button id="tour-dashboard" onClick={() => navigate("/dashboard")} className={`flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-all duration-200 ${isActive("/dashboard") ? "bg-blue-50 dark:bg-blue-500/10 text-[#006493] dark:text-blue-400 shadow-sm" : "text-slate-600 dark:text-slate-400 hover:text-[#006493] dark:hover:text-blue-300 hover:bg-slate-50 dark:hover:bg-slate-800"}`}>
               <span className="material-symbols-outlined">dashboard</span>
               <span className="text-sm">Dashboard</span>
             </button>
-            <button onClick={() => navigate("/dashboard/chemistry")} className={`flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-all duration-200 ${isActive("/dashboard/chemistry") ? "bg-blue-50 dark:bg-blue-500/10 text-[#006493] dark:text-blue-400 shadow-sm" : "text-slate-600 dark:text-slate-400 hover:text-[#006493] dark:hover:text-blue-300 hover:bg-slate-50 dark:hover:bg-slate-800"}`}>
+            <button id="tour-courses" onClick={() => navigate("/dashboard/chemistry")} className={`flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-all duration-200 ${isActive("/dashboard/chemistry") ? "bg-blue-50 dark:bg-blue-500/10 text-[#006493] dark:text-blue-400 shadow-sm" : "text-slate-600 dark:text-slate-400 hover:text-[#006493] dark:hover:text-blue-300 hover:bg-slate-50 dark:hover:bg-slate-800"}`}>
               <span className="material-symbols-outlined">school</span>
               <span className="text-sm">My Courses</span>
             </button>
@@ -82,7 +86,7 @@ const DashboardLayout = () => {
               <span className="material-symbols-outlined">layers</span>
               <span className="text-sm">AR Library</span>
             </button>
-            <button onClick={() => navigate("/dashboard/self-study")} className={`flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-all duration-200 ${isActive("/dashboard/self-study") ? "bg-blue-50 dark:bg-blue-500/10 text-[#006493] dark:text-blue-400 shadow-sm" : "text-slate-600 dark:text-slate-400 hover:text-[#006493] dark:hover:text-blue-300 hover:bg-slate-50 dark:hover:bg-slate-800"}`}>
+            <button id="tour-assignments" onClick={() => navigate("/dashboard/self-study")} className={`flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-all duration-200 ${isActive("/dashboard/self-study") ? "bg-blue-50 dark:bg-blue-500/10 text-[#006493] dark:text-blue-400 shadow-sm" : "text-slate-600 dark:text-slate-400 hover:text-[#006493] dark:hover:text-blue-300 hover:bg-slate-50 dark:hover:bg-slate-800"}`}>
               <span className="material-symbols-outlined">assignment</span>
               <span className="text-sm">Assignments</span>
             </button>
@@ -103,7 +107,7 @@ const DashboardLayout = () => {
 
           {/* Footer Profile */}
           <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between transition-colors">
-            <div onClick={() => navigate("/dashboard/profile")} className="flex items-center gap-3 truncate pr-2 cursor-pointer hover:opacity-80 transition-opacity">
+            <div id="tour-profile" onClick={() => navigate("/dashboard/profile")} className="flex items-center gap-3 truncate pr-2 cursor-pointer hover:opacity-80 transition-opacity">
               {user?.name ? (
                 <img alt="Student profile avatar" className="w-10 h-10 rounded-full object-cover shrink-0 border border-slate-200 dark:border-slate-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqVv1P6vCCzh6X0oZTjYzxBmailQ2lO4S6lhbfgPMftb1DHPVYW41Caj2fU-uABGM9OMy-pFctkVQMAnVzvEXe6gu0CxUPoCCzBTdQyMQpuDUZEc40ftMkLZ5WBlz-WpXNUg_O2HKgDnoGhtDgWWE7lHzhZDuhtNmn7ADbeMTacQ2LiknsgtwtcKXRWP22rFUl-XCf3wIfz8obGvM6EWIxdmb8QDnUcftNvEZ_A2LCuSJRcdhxXyu_bhjZHfKfiD9xn5tOuru_KA" />
               ) : (
@@ -125,11 +129,11 @@ const DashboardLayout = () => {
         {/* Mobile/Tablet Bottom Navigation */}
         {!isSidebarHiddenForThisRoute && (
           <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-[#1e293b] border-t border-slate-200 dark:border-slate-800 px-6 py-3 pb-safe flex items-center justify-between z-50 transition-colors duration-300 shadow-[0_-4px_20px_rgba(0,0,0,0.05)] dark:shadow-none">
-            <button onClick={() => navigate("/dashboard")} className={`flex flex-col items-center gap-1 ${isActive("/dashboard") ? "text-[#006493] dark:text-blue-400" : "text-slate-400 hover:text-[#006493] dark:hover:text-blue-300"}`}>
+            <button id="tour-dashboard" onClick={() => navigate("/dashboard")} className={`flex flex-col items-center gap-1 ${isActive("/dashboard") ? "text-[#006493] dark:text-blue-400" : "text-slate-400 hover:text-[#006493] dark:hover:text-blue-300"}`}>
               <span className={`material-symbols-outlined ${isActive("/dashboard") ? "fill-icon" : ""}`}>dashboard</span>
               <span className="text-[10px] font-bold">Dashboard</span>
             </button>
-            <button onClick={() => navigate("/dashboard/chemistry")} className={`flex flex-col items-center gap-1 ${isActive("/dashboard/chemistry") ? "text-[#006493] dark:text-blue-400" : "text-slate-400 hover:text-[#006493] dark:hover:text-blue-300"}`}>
+            <button id="tour-courses" onClick={() => navigate("/dashboard/chemistry")} className={`flex flex-col items-center gap-1 ${isActive("/dashboard/chemistry") ? "text-[#006493] dark:text-blue-400" : "text-slate-400 hover:text-[#006493] dark:hover:text-blue-300"}`}>
               <span className={`material-symbols-outlined ${isActive("/dashboard/chemistry") ? "fill-icon" : ""}`}>school</span>
               <span className="text-[10px] font-bold">Courses</span>
             </button>
@@ -137,7 +141,7 @@ const DashboardLayout = () => {
               <span className={`material-symbols-outlined ${isActive("/dashboard/biology") ? "fill-icon" : ""}`}>layers</span>
               <span className="text-[10px] font-bold">Library</span>
             </button>
-            <button onClick={() => navigate("/dashboard/self-study")} className={`flex flex-col items-center gap-1 ${isActive("/dashboard/self-study") ? "text-[#006493] dark:text-blue-400" : "text-slate-400 hover:text-[#006493] dark:hover:text-blue-300"}`}>
+            <button id="tour-assignments" onClick={() => navigate("/dashboard/self-study")} className={`flex flex-col items-center gap-1 ${isActive("/dashboard/self-study") ? "text-[#006493] dark:text-blue-400" : "text-slate-400 hover:text-[#006493] dark:hover:text-blue-300"}`}>
               <span className={`material-symbols-outlined ${isActive("/dashboard/self-study") ? "fill-icon" : ""}`}>assignment</span>
               <span className="text-[10px] font-bold">Assignments</span>
             </button>
@@ -204,7 +208,7 @@ const DashboardLayout = () => {
                   </div>
                 )}
               </div>
-              <div onClick={() => navigate("/dashboard/profile")} className="w-8 h-8 sm:w-9 sm:h-9 rounded-full overflow-hidden border-2 border-slate-200 dark:border-slate-700 lg:hidden ml-1 sm:ml-2 transition-colors cursor-pointer hover:opacity-80">
+              <div id="tour-profile" onClick={() => navigate("/dashboard/profile")} className="w-8 h-8 sm:w-9 sm:h-9 rounded-full overflow-hidden border-2 border-slate-200 dark:border-slate-700 lg:hidden ml-1 sm:ml-2 transition-colors cursor-pointer hover:opacity-80">
                 {user?.name ? (
                   <img alt="Profile" className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqVv1P6vCCzh6X0oZTjYzxBmailQ2lO4S6lhbfgPMftb1DHPVYW41Caj2fU-uABGM9OMy-pFctkVQMAnVzvEXe6gu0CxUPoCCzBTdQyMQpuDUZEc40ftMkLZ5WBlz-WpXNUg_O2HKgDnoGhtDgWWE7lHzhZDuhtNmn7ADbeMTacQ2LiknsgtwtcKXRWP22rFUl-XCf3wIfz8obGvM6EWIxdmb8QDnUcftNvEZ_A2LCuSJRcdhxXyu_bhjZHfKfiD9xn5tOuru_KA" />
                 ) : (
