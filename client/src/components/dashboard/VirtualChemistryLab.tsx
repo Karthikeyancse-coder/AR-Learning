@@ -1,8 +1,16 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { CHEMICALS, REACTIONS, TOUR } from "./VirtualChemLab";
 import type { Chemical, Reaction, HistoryItem } from "./VirtualChemLab";
+
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { sendMessage, clearChat } from "../../redux/slices/geminiSlice";
+import { usePageContext } from "../../hooks/usePageContext";
+import ReactMarkdown from "react-markdown";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
+import "katex/dist/katex.min.css";
 
 /* ── Floating Particles ─────────────────────────────────────────── */
 const Particles = () => {
@@ -285,6 +293,120 @@ const ReactionCard = ({reaction,onClose}:{reaction:Reaction;onClose:()=>void}) =
   );
 };
 
+/* ── AI Tutor Panel ─────────────────────────────────────────────── */
+const AITutorPanel = ({ onClose }: { onClose: () => void }) => {
+  const dispatch = useAppDispatch();
+  const { messages, loading } = useAppSelector((state) => state.gemini);
+  const screenContext = usePageContext();
+  const [inputText, setInputText] = useState("");
+  const chatEndRef = useRef<HTMLDivElement>(null);
+
+  const handleSendMessage = async (text: string) => {
+    if (!text.trim()) return;
+    await dispatch(sendMessage({ message: text, screenContext }));
+    setInputText("");
+    setTimeout(() => chatEndRef.current?.scrollIntoView({ behavior: "smooth" }), 100);
+  };
+
+  useEffect(() => {
+    setTimeout(() => chatEndRef.current?.scrollIntoView({ behavior: "smooth" }), 100);
+  }, [messages]);
+
+  const quickActions = [
+    "chemistry help",
+    "experiment guidance",
+    "reaction explanation",
+    "tutor support"
+  ];
+
+  return (
+    <motion.div 
+      initial={{ opacity: 0, y: 20, scale: 0.95 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, y: 20, scale: 0.95 }}
+      className="fixed bottom-[75px] right-4 md:bottom-[80px] md:right-[272px] w-[calc(100vw-2rem)] sm:w-[380px] h-[500px] max-h-[70vh] bg-white dark:bg-[#1e293b] rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.2)] dark:shadow-[0_10px_40px_rgba(0,0,0,0.5)] border border-slate-200 dark:border-slate-800 flex flex-col z-[70] overflow-hidden transition-colors duration-300"
+    >
+      <div className="flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-800 bg-[#006493] dark:bg-blue-600 text-white transition-colors">
+        <div className="flex items-center gap-2">
+          <span className="material-symbols-outlined font-bold text-white">smart_toy</span>
+          <h3 className="font-bold text-sm tracking-wide">Lab AI Tutor</h3>
+        </div>
+        <div className="flex gap-3 items-center">
+          <button onClick={() => dispatch(clearChat())} className="text-[10px] font-bold uppercase tracking-wider text-blue-200 hover:text-white transition-colors">Clear</button>
+          <button onClick={onClose} className="text-blue-200 hover:text-white transition-colors flex items-center justify-center">
+            <span className="material-symbols-outlined text-lg">close</span>
+          </button>
+        </div>
+      </div>
+
+      <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50/50 dark:bg-[#0f172a]/50 custom-scrollbar transition-colors">
+        {messages.length === 0 ? (
+          <div className="flex flex-col gap-3">
+            <div className="bg-white dark:bg-slate-800 p-4 rounded-2xl rounded-tl-none shadow-sm text-sm font-medium text-slate-700 dark:text-slate-300 border border-slate-100 dark:border-slate-700 transition-colors">
+              Hello! I'm LearnLLM, your chemistry lab assistant. Need help with your experiment?
+            </div>
+            <div className="flex flex-wrap gap-2 mt-2">
+              {quickActions.map(action => (
+                <button
+                  key={action}
+                  onClick={() => handleSendMessage(`I need ${action}.`)}
+                  className="px-3 py-1.5 text-[11px] font-bold text-[#006493] dark:text-blue-400 bg-blue-50 dark:bg-blue-500/10 hover:bg-blue-100 dark:hover:bg-blue-500/20 border border-blue-200 dark:border-blue-500/20 rounded-full transition-colors"
+                >
+                  {action}
+                </button>
+              ))}
+            </div>
+          </div>
+        ) : (
+          messages.map((msg: any, idx: number) => (
+            <div key={idx} className={`flex gap-3 ${msg.role === "user" ? "flex-row-reverse" : ""}`}>
+              <div className={`w-8 h-8 rounded-full shrink-0 flex items-center justify-center text-white text-[10px] font-black tracking-tighter transition-colors ${msg.role === "user" ? "bg-[#006493] dark:bg-blue-600 shadow-md" : "bg-slate-800 dark:bg-slate-700 shadow-sm"}`}>
+                {msg.role === "user" ? "ME" : "AI"}
+              </div>
+              <div className={`p-3.5 rounded-2xl text-sm max-w-[80%] font-medium transition-colors ${msg.role === "user" ? "bg-[#006493] dark:bg-blue-600 text-white rounded-tr-none shadow-md" : "bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 text-slate-800 dark:text-slate-200 rounded-tl-none shadow-sm"}`}>
+                <div className="markdown-content">
+                  <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>{msg.content}</ReactMarkdown>
+                </div>
+              </div>
+            </div>
+          ))
+        )}
+        {loading && (
+          <div className="flex gap-3">
+             <div className="w-8 h-8 bg-slate-800 dark:bg-slate-700 rounded-full shrink-0 flex items-center justify-center text-white text-[10px] font-black tracking-tighter shadow-sm transition-colors">AI</div>
+             <div className="bg-white dark:bg-slate-800 p-4 rounded-2xl rounded-tl-none shadow-sm border border-slate-100 dark:border-slate-700 flex items-center gap-1.5 transition-colors">
+               <div className="w-1.5 h-1.5 bg-slate-400 dark:bg-slate-500 rounded-full animate-bounce transition-colors"></div>
+               <div className="w-1.5 h-1.5 bg-slate-400 dark:bg-slate-500 rounded-full animate-bounce transition-colors" style={{ animationDelay: "0.15s" }}></div>
+               <div className="w-1.5 h-1.5 bg-slate-400 dark:bg-slate-500 rounded-full animate-bounce transition-colors" style={{ animationDelay: "0.3s" }}></div>
+             </div>
+          </div>
+        )}
+        <div ref={chatEndRef} />
+      </div>
+
+      <div className="p-3 bg-white dark:bg-[#1e293b] border-t border-slate-200 dark:border-slate-800 transition-colors">
+        <div className="relative flex items-center">
+          <input
+            type="text"
+            value={inputText}
+            onChange={(e) => setInputText(e.target.value)}
+            onKeyDown={(e) => { if (e.key === "Enter") handleSendMessage(inputText); }}
+            disabled={loading}
+            placeholder="Ask AI tutor about the lab..."
+            className="w-full pl-4 pr-12 py-3 bg-slate-100 dark:bg-slate-800 rounded-xl text-sm font-medium border-none focus:ring-2 focus:ring-[#006493] dark:focus:ring-blue-500 text-slate-800 dark:text-white placeholder:text-slate-400 transition-all shadow-inner dark:shadow-none"
+          />
+          <button
+            onClick={() => handleSendMessage(inputText)}
+            disabled={loading || !inputText.trim()}
+            className="absolute right-2 p-2 bg-[#006493] dark:bg-blue-600 text-white rounded-lg hover:bg-[#004e75] dark:hover:bg-blue-500 disabled:opacity-50 transition-colors flex items-center justify-center shadow-md active:scale-95"
+          >
+            <span className="material-symbols-outlined text-[18px]">send</span>
+          </button>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
 
 const VirtualChemistryLab = () => {
   const navigate = useNavigate();
@@ -307,6 +429,7 @@ const VirtualChemistryLab = () => {
   const [edgeGlow, setEdgeGlow] = useState(false);
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
   const [historyOpen, setHistoryOpen] = useState(false);
+  const [tutorOpen, setTutorOpen] = useState(false);
 
   // Init tour
   useEffect(() => {
@@ -362,7 +485,7 @@ const VirtualChemistryLab = () => {
   const canMix = beaker1.length > 0 && beaker2.length > 0 && !reacting;
 
   return (
-    <div className={`relative flex flex-col overflow-hidden min-h-screen w-full transition-colors duration-500 ${isDarkMode ? 'dark bg-[#0a0a1a]' : 'bg-slate-50'}`}
+    <div className="relative flex flex-col overflow-hidden min-h-screen w-full transition-colors duration-500 bg-slate-50 dark:bg-[#0a0a1a]"
       style={{fontFamily:"'Inter',sans-serif"}}>
 
       {/* Edge glow on dramatic reactions */}
@@ -734,6 +857,20 @@ const VirtualChemistryLab = () => {
           title={TOUR[tourStep].title} body={TOUR[tourStep].body}
           onNext={nextTour} onSkip={finishTour} />
       )}
+
+      {/* ── AI Tutor Floating Assistant Button ────────────────────────── */}
+      <button 
+        onClick={() => setTutorOpen(!tutorOpen)}
+        className="ai-tutor-container fixed bottom-20 lg:bottom-10 right-6 lg:right-10 size-14 sm:size-16 bg-[#006493] dark:bg-blue-600 text-white rounded-full flex items-center justify-center hover:scale-105 transition-transform z-50 group shadow-xl border-2 border-white/20 dark:border-white/10"
+      >
+        <span className="material-symbols-outlined text-[28px] sm:text-[32px] group-hover:animate-pulse">
+          {tutorOpen ? "close" : "smart_toy"}
+        </span>
+      </button>
+
+      <AnimatePresence>
+        {tutorOpen && <AITutorPanel onClose={() => setTutorOpen(false)} />}
+      </AnimatePresence>
     </div>
   );
 };
