@@ -153,9 +153,10 @@ const DashboardLayout = () => {
         )}
 
         {/* Main Canvas */}
-        <main className={`${isSidebarHiddenForThisRoute ? '' : 'lg:ml-64'} min-h-screen relative flex flex-col pt-16 lg:pt-0`}>
+        <main className={`${isSidebarHiddenForThisRoute ? '' : 'lg:ml-64'} min-h-screen relative flex flex-col ${isSidebarHiddenForThisRoute ? '' : 'pt-16 lg:pt-0'}`}>
           {/* TopNavBar Shell */}
-          <header className={`fixed top-0 right-0 left-0 ${isSidebarHiddenForThisRoute ? '' : 'lg:left-64'} h-16 border-b border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-[#1e293b]/90 backdrop-blur-md flex items-center justify-between px-4 sm:px-6 lg:px-8 z-40 transition-colors duration-300`}>
+          {!isSidebarHiddenForThisRoute && (
+            <header className={`fixed top-0 right-0 left-0 lg:left-64 h-16 border-b border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-[#1e293b]/90 backdrop-blur-md flex items-center justify-between px-4 sm:px-6 lg:px-8 z-40 transition-colors duration-300`}>
             <div className="flex items-center gap-2 sm:gap-3 lg:hidden">
               <div className="w-8 h-8 bg-[#006493] dark:bg-blue-600 rounded-lg flex items-center justify-center text-white shadow-sm transition-colors">
                 <span className="material-symbols-outlined text-sm font-bold">school</span>
@@ -217,16 +218,18 @@ const DashboardLayout = () => {
               </div>
             </div>
           </header>
+          )}
+
 
           {/* Dynamic Content Area */}
-          <div className="flex-1 w-full lg:pt-16 pb-20 lg:pb-0">
+          <div className={`flex-1 w-full ${isSidebarHiddenForThisRoute ? '' : 'lg:pt-16'} pb-20 lg:pb-0`}>
             <div className={`${isSidebarHiddenForThisRoute ? 'w-full h-full p-0' : 'p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto h-full'}`}>
               <Outlet />
             </div>
           </div>
 
-          {/* Floating Chat Window */}
-          {isChatOpen && (
+          {/* Floating Chat Window — hidden on full-screen lab routes */}
+          {isChatOpen && !isSidebarHiddenForThisRoute && (
             <div className="ai-tutor-container fixed bottom-24 lg:bottom-10 right-4 lg:right-28 w-[calc(100vw-2rem)] sm:w-96 h-[500px] max-h-[70vh] bg-white dark:bg-[#1e293b] rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 flex flex-col z-50 overflow-hidden shrink-0 transition-colors duration-300">
               <div className="flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 transition-colors">
                 <div className="flex items-center gap-2">
@@ -296,7 +299,8 @@ const DashboardLayout = () => {
             </div>
           )}
 
-          {/* Quick Action AI Button */}
+          {/* Quick Action AI Button — hidden on full-screen lab routes */}
+          {!isSidebarHiddenForThisRoute && (
           <button
             onClick={() => setIsChatOpen(!isChatOpen)}
             className="ai-tutor-container fixed bottom-20 lg:bottom-10 right-6 lg:right-10 size-14 sm:size-16 bg-[#006493] dark:bg-blue-600 text-white rounded-full flex items-center justify-center hover:scale-105 transition-transform z-50 group shadow-xl border-2 border-white/20 dark:border-white/10"
@@ -305,6 +309,7 @@ const DashboardLayout = () => {
               {isChatOpen ? "close" : "smart_toy"}
             </span>
           </button>
+          )}
         </main>
       </div>
     </div>
