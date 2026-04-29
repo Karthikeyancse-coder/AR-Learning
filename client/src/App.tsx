@@ -11,6 +11,7 @@ import SignupPage from "./components/no_auth/SignupPage";
 import DashboardLayout from "./components/dashboard/DashboardLayout";
 import Home from "./components/dashboard/Home";
 import Chemistry from "./components/dashboard/Chemistry";
+import VirtualChemistryLab from "./components/dashboard/VirtualChemistryLab";
 import Biology from "./components/dashboard/Biology";
 import SelfStudy from "./components/dashboard/SelfStudy";
 import TodoList from "./components/dashboard/TodoList";
@@ -68,6 +69,7 @@ const router = createBrowserRouter([
           },
           { path: "home", element: <Home /> },
           { path: "chemistry", element: <Chemistry /> },
+          { path: "chemistry/lab", element: <VirtualChemistryLab /> },
           { path: "chemistry/:chapterId", element: <InorganicReaction /> },
           { path: "chemistry/assessment/:chapterId", element: <Assessment /> },
           { path: "biology", element: <Biology /> },

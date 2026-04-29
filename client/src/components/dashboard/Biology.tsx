@@ -28,9 +28,8 @@ const ImageCard = ({
   return (
     <div
       onClick={onClick}
-      className={`bg-[#FFFFFF] dark:bg-[#1E1E2F] rounded-2xl flex flex-col overflow-hidden shadow-[0_2px_8px_-1px_rgba(0,0,0,0.04)] dark:shadow-none transition-all duration-250 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-[0_12px_24px_-10px_rgba(0,212,255,0.15)] dark:hover:shadow-[0_12px_24px_-10px_rgba(0,212,255,0.15)] ${
-        onClick ? "cursor-pointer" : "cursor-default"
-      } border border-[#E5E7EB] dark:border-slate-700/50 group`}
+      className={`bg-[#FFFFFF] dark:bg-[#1E1E2F] rounded-2xl flex flex-col overflow-hidden shadow-[0_2px_8px_-1px_rgba(0,0,0,0.04)] dark:shadow-none transition-all duration-250 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-[0_12px_24px_-10px_rgba(0,212,255,0.15)] dark:hover:shadow-[0_12px_24px_-10px_rgba(0,212,255,0.15)] ${onClick ? "cursor-pointer" : "cursor-default"
+        } border border-[#E5E7EB] dark:border-slate-700/50 group`}
     >
       <div className="h-40 md:h-44 w-full relative overflow-hidden">
         <img
