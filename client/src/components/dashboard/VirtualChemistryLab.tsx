@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { CHEMICALS, REACTIONS, TOUR } from "./VirtualChemLab";
 import type { Chemical, Reaction, HistoryItem } from "./VirtualChemLab";
@@ -300,24 +300,13 @@ const VirtualChemistryLab = () => {
   const [history, setHistory] = useState<HistoryItem[]>([]);
   const [tourStep, setTourStep] = useState<number | null>(null);
   const [isShelfOpen, setIsShelfOpen] = useState(true);
-  const [isDarkMode, setIsDarkMode] = useState(true);
+  const { isDarkMode, toggleTheme } = useOutletContext<{ isDarkMode: boolean; toggleTheme: () => void }>() || { isDarkMode: true, toggleTheme: () => {} };
   const [showNotifications, setShowNotifications] = useState(false);
 
   const [shakeBeaker, setShakeBeaker] = useState(false);
   const [edgeGlow, setEdgeGlow] = useState(false);
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
   const [historyOpen, setHistoryOpen] = useState(false);
-
-  useEffect(() => {
-    const saved = localStorage.getItem("chem_lab_theme");
-    if (saved === "light") setIsDarkMode(false);
-  }, []);
-
-  const toggleTheme = () => {
-    const newTheme = !isDarkMode;
-    setIsDarkMode(newTheme);
-    localStorage.setItem("chem_lab_theme", newTheme ? "dark" : "light");
-  };
 
   // Init tour
   useEffect(() => {
@@ -407,9 +396,13 @@ const VirtualChemistryLab = () => {
             <span className="hidden md:inline">Reactions:</span><span className="md:hidden">Rxns:</span> <span className="text-teal-500 dark:text-teal-400 font-bold ml-1 md:ml-1.5 text-xs md:text-[13px]">{history.length}</span>
           </div>
           
+          <button onClick={toggleTheme} className="md:hidden p-1.5 text-slate-500 dark:text-teal-400/70 hover:text-teal-500 dark:hover:text-teal-300 hover:bg-slate-100 dark:hover:bg-teal-400/10 rounded-full transition-colors flex items-center justify-center">
+            <span className="material-symbols-outlined text-[18px]">{isDarkMode ? "dark_mode" : "light_mode"}</span>
+          </button>
+
           <div className="hidden md:flex items-center gap-1.5 border-l border-slate-300 dark:border-teal-400/20 pl-4 h-6 transition-colors duration-500">
             <button onClick={toggleTheme} className="p-1.5 text-slate-500 dark:text-teal-400/70 hover:text-teal-500 dark:hover:text-teal-300 hover:bg-slate-100 dark:hover:bg-teal-400/10 rounded-full transition-colors flex items-center justify-center">
-              <span className="material-symbols-outlined text-[20px]">{isDarkMode ? "light_mode" : "dark_mode"}</span>
+              <span className="material-symbols-outlined text-[20px]">{isDarkMode ? "dark_mode" : "light_mode"}</span>
             </button>
             <div className="relative">
               <button onClick={() => setShowNotifications(!showNotifications)} className="p-1.5 text-slate-500 dark:text-teal-400/70 hover:text-teal-500 dark:hover:text-teal-300 hover:bg-slate-100 dark:hover:bg-teal-400/10 rounded-full transition-colors flex items-center justify-center">

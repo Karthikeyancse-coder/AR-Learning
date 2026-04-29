@@ -21,7 +21,16 @@ const DashboardLayout = () => {
   // Capture what the student is currently viewing so Gemini can answer in context
   const screenContext = usePageContext();
 
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    return localStorage.getItem("app_theme") === "dark";
+  });
+
+  const toggleTheme = () => {
+    const newTheme = !isDarkMode;
+    setIsDarkMode(newTheme);
+    localStorage.setItem("app_theme", newTheme ? "dark" : "light");
+  };
+
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [inputText, setInputText] = useState("");
@@ -165,7 +174,7 @@ const DashboardLayout = () => {
             </div>
 
             <div className="flex items-center gap-1 sm:gap-2 lg:gap-3 ml-auto">
-              <button onClick={() => setIsDarkMode(!isDarkMode)} className="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors">
+              <button onClick={toggleTheme} className="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors">
                 <span className="material-symbols-outlined">{isDarkMode ? "light_mode" : "dark_mode"}</span>
               </button>
               <div className="relative">
@@ -224,7 +233,7 @@ const DashboardLayout = () => {
           {/* Dynamic Content Area */}
           <div className={`flex-1 w-full ${isSidebarHiddenForThisRoute ? '' : 'lg:pt-16'} pb-20 lg:pb-0`}>
             <div className={`${isSidebarHiddenForThisRoute ? 'w-full h-full p-0' : 'p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto h-full'}`}>
-              <Outlet />
+              <Outlet context={{ isDarkMode, toggleTheme }} />
             </div>
           </div>
 
